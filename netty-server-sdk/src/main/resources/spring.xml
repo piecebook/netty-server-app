@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="spring-redis.xml"/>
+    
+    <bean id="sessionManager" class="com.pb.server.cache.session.PBSessionManage"></bean>
+    <bean id="pbIOHandler" class="com.pb.server.cache.handler.PBIoHandler" scope="prototype">
+        <property name="handlers">
+            <map>
+                <entry key="login">
+                    <bean class="com.pb.server.cache.handler.LoginHandler"/>
+                </entry>
+                <entry key="ping">
+                    <bean class="com.pb.server.cache.handler.PingHandler"/>
+                </entry>
+                <entry key="message">
+                    <bean class="com.pb.server.cache.handler.MessageHandler"/>
+                </entry>
+                <entry key="ack">
+                    <bean class="com.pb.server.cache.handler.ACKHandler"/>
+                </entry>
+                <entry key="logout">
+                    <bean class="com.pb.server.cache.handler.LogoutHandler"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean id="messagePusher" class="com.pb.server.cache.pusher.PBMessagePusher"></bean>
+    <bean id="offlineMessageManager" class="com.pb.server.cache.MessageFactory.OfflineMessageManager"></bean>
+
+</beans>
