@@ -1,7 +1,6 @@
 package com.pb.server.cache;
 
 import com.pb.server.cache.redisUtil.RedisUtil;
-import com.pb.server.cache.util.ContexHolder;
 import pb.server.dao.model.Message;
 
 /**
@@ -10,7 +9,7 @@ import pb.server.dao.model.Message;
 public class MainTest {
 
     public static void main(String[] args){
-        RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");
+        RedisUtil redisUtil = null;//(RedisUtil) ContexHolder.getBean("redisUtil");
         Message message = new Message();
         message.setType((byte)1);
         message.setMsg_id(222);

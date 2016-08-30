@@ -5,31 +5,32 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <import resource="spring-redis.xml"/>
-    
-    <bean id="sessionManager" class="com.pb.server.cache.session.PBSessionManage"></bean>
-    <bean id="pbIOHandler" class="com.pb.server.cache.handler.PBIoHandler" scope="prototype">
+    <import resource="classpath*:spring-redis.xml"/>
+    <import resource="classpath:spring-task.xml"/>
+
+    <bean id="sessionManager" class="com.pb.server.sdk.session.PBSessionManage"></bean>
+    <bean id="pbIOHandler" class="com.pb.server.sdk.handler.PBIoHandler" scope="prototype">
         <property name="handlers">
             <map>
                 <entry key="login">
-                    <bean class="com.pb.server.cache.handler.LoginHandler"/>
+                    <bean class="com.pb.server.sdk.handler.LoginHandler"/>
                 </entry>
                 <entry key="ping">
-                    <bean class="com.pb.server.cache.handler.PingHandler"/>
+                    <bean class="com.pb.server.sdk.handler.PingHandler"/>
                 </entry>
                 <entry key="message">
-                    <bean class="com.pb.server.cache.handler.MessageHandler"/>
+                    <bean class="com.pb.server.sdk.handler.MessageHandler"/>
                 </entry>
                 <entry key="ack">
-                    <bean class="com.pb.server.cache.handler.ACKHandler"/>
+                    <bean class="com.pb.server.sdk.handler.ACKHandler"/>
                 </entry>
                 <entry key="logout">
-                    <bean class="com.pb.server.cache.handler.LogoutHandler"/>
+                    <bean class="com.pb.server.sdk.handler.LogoutHandler"/>
                 </entry>
             </map>
         </property>
     </bean>
-    <bean id="messagePusher" class="com.pb.server.cache.pusher.PBMessagePusher"></bean>
-    <bean id="offlineMessageManager" class="com.pb.server.cache.MessageFactory.OfflineMessageManager"></bean>
+    <bean id="messagePusher" class="com.pb.server.sdk.pusher.PBMessagePusher"></bean>
+    <bean id="offlineMessageManager" class="com.pb.server.sdk.MessageFactory.OfflineMessageManager"></bean>
 
 </beans>

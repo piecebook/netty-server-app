@@ -1,9 +1,9 @@
 package com.pb.server.sdk.handler;
 
-import com.pb.server.cache.util.ContexHolder;
 import com.pb.server.sdk.constant.PBCONSTANT;
 import com.pb.server.sdk.session.PBSession;
 import com.pb.server.sdk.session.SessionManage;
+import com.pb.server.sdk.util.ContexHolder;
 import pb.server.dao.model.Message;
 
 public class LogoutHandler implements PBRequestHandler {

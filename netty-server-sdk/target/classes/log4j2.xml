@@ -14,7 +14,7 @@
             <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] - [ %p ]  %m%n"/>
         </File>
 
-        <File name="FileWarn" fileName="~/web/logs/warn.log">
+        <File name="FileWarn" fileName="log/sdk/logs/warn.log">
             <Filters>
                 <ThresholdFilter level="WARN"/>
                 <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
@@ -22,7 +22,7 @@
             <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] - [ %p ]  %m%n"/>
         </File>
 
-        <File name="FileError" fileName="~/web/logs/error.log">
+        <File name="FileError" fileName="log/sdk/logs/error.log">
             <ThresholdFilter level="ERROR"/>
             <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] - [ %p ]  %m%n"/>
         </File>

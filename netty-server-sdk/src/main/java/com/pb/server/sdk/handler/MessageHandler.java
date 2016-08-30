@@ -1,12 +1,12 @@
 package com.pb.server.sdk.handler;
 
 
-import com.pb.server.cache.util.ContexHolder;
 import com.pb.server.sdk.MessageFactory.OfflineMessageManager;
 import com.pb.server.sdk.constant.PBCONSTANT;
 import com.pb.server.sdk.pusher.PBMessagePusher;
 import com.pb.server.sdk.session.PBSession;
 import com.pb.server.sdk.session.SessionManage;
+import com.pb.server.sdk.util.ContexHolder;
 import pb.server.dao.model.Message;
 
 public class MessageHandler implements PBRequestHandler {
@@ -18,7 +18,7 @@ public class MessageHandler implements PBRequestHandler {
 		Message reply = new Message();
 		reply.setType(PBCONSTANT.MESSAGE_REPLY_FLAG);
 		if (receiver_session != null && receiver_session.getSession().isActive()) {
-			((PBMessagePusher)ContexHolder.getBean("messagePusher")).push(msg);
+			((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(msg);
 			reply.setParam("r_uid",msg.get("s_uid"));
 			reply.setParam("st",PBCONSTANT.SUCCESS);
 		} else {

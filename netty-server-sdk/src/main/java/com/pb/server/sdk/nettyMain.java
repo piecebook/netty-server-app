@@ -2,6 +2,7 @@ package com.pb.server.sdk;
 
 import com.pb.server.sdk.filter.MessageDecoder;
 import com.pb.server.sdk.filter.MessageEncoder;
+import com.pb.server.sdk.util.ContexHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -25,8 +26,6 @@ public class nettyMain {
 
 	public static void main(String[] args) {
 		nettyMain server = new nettyMain();
-		Thread messageAckDaemon = new Thread(new MessageACKDaemon());
-		messageAckDaemon.start();
 		server.start();
 	}
 
@@ -50,7 +49,7 @@ public class nettyMain {
 					channel.pipeline().addLast(new LengthFieldBasedFrameDecoder(maxFrameLength,lengthFieldOffset,lengthFieldLength,lengthAdjustment,initialBytesToStrip));
 					channel.pipeline().addLast(new MessageDecoder());
 					//channel.pipeline().addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)));
-					channel.pipeline().addLast((ChannelHandler) com.pb.server.cache.util.ContexHolder.getBean("pbIOHandler"));
+					channel.pipeline().addLast((ChannelHandler) ContexHolder.getBean("pbIOHandler"));
 				}
 
 			});
