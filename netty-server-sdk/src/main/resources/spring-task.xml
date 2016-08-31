@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:task="http://www.springframework.org/schema/task"
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:task="http://www.springframework.org/schema/task"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <bean id="messageResendDaemon" class="com.pb.server.sdk.daemon.MessageResendDaemon"/>
-    <bean id="messageACKDaemon" class="com.pb.server.sdk.daemon.MessageACKDaemon"/>
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+    <bean id="messageResendDaemon" class="com.pb.server.sdk.daemon.MessageResendDaemon">
+        <property name="redisUtil">
+            <ref bean="redisUtil"/>
+        </property>
+    </bean>
+    <bean id="messageACKDaemon" class="com.pb.server.sdk.daemon.MessageACKDaemon">
+        <property name="redisUtil">
+            <ref bean="redisUtil"/>
+        </property>
+    </bean>
 
-    <task:scheduled-tasks>
-        <task:scheduled ref="messageResendDaemon" method="run" cron="0/15 * * * * ?"/>
-        <task:scheduled ref="messageACKDaemon" method="run" cron="0 * * * * ?"/>
+    <task:scheduler id="myscheduler" pool-size="10"/>
+    <task:scheduled-tasks scheduler="myscheduler">
+        <task:scheduled ref="messageResendDaemon" method="run" cron="0,15,30,45 * * * * ?"/>
+        <task:scheduled ref="messageACKDaemon" method="run" fixed-delay="1"/>
     </task:scheduled-tasks>
-    <context:component-scan base-package=" com.pb.server.sdk.daemon "/>
 </beans>

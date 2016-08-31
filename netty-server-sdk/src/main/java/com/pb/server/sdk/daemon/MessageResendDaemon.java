@@ -1,19 +1,22 @@
 package com.pb.server.sdk.daemon;
 
 import com.pb.server.cache.redisUtil.RedisUtil;
+import com.pb.server.sdk.pusher.PBMessagePusher;
 import com.pb.server.sdk.util.ContexHolder;
-import org.springframework.stereotype.Service;
+import pb.server.dao.model.Message;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DW on 2016/8/29.
  */
-@Service
+
 public class MessageResendDaemon {
-    private RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");
+    private RedisUtil redisUtil;// = (RedisUtil) ContexHolder.getBean("redisUtil");
 
     public void run() {
-        System.out.println("Resend running");
-        /*
+        //System.out.println("Resend running");
         Long current_time_15s_before = System.currentTimeMillis() - 15000;
         Long current_time_30s_before = current_time_15s_before - 15000;
         Long current_time_45s_before = current_time_30s_before - 15000;
@@ -29,7 +32,7 @@ public class MessageResendDaemon {
 
         if (!resend_list.isEmpty()) {
             for (Message msg : resend_list) {
-                ((PBMessagePusher) com.pb.server.cache.util.ContexHolder.getBean("messagePusher")).push(msg);
+                ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(msg);
             }
         }
         if (!offline_messages.isEmpty()) {
@@ -38,6 +41,10 @@ public class MessageResendDaemon {
                 System.out.println("offline message:" + msg.toString());
                 //TODO: 1.msg持久化，   2.接收者下线
             }
-        }*/
+        }
+    }
+
+    public void setRedisUtil(RedisUtil redisUtil) {
+        this.redisUtil = redisUtil;
     }
 }
