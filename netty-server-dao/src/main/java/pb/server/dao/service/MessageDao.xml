@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pb.server.dao.service.MessageDao">
+
+    <resultMap id="message" type="pb.server.dao.model.MessageModel">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="sender" property="sender"/>
+        <result column="receiver" property="receiver"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="create_time"/>
+        <result column="session_id" property="session_id"/>
+    </resultMap>
+
+    <insert id="addMessage" parameterType="_message">
+        insert into message(type, sender, receiver, content, create_time,session_id) value (#{type}, #{sender},
+        #{receiver}, #{content}, #{create_time}, #{session_id})
+    </insert>
+    <insert id="addOfflineMessage" parameterType="_message">
+        insert into message_offline(type, sender, receiver, content, create_time,session_id) value (#{type}, #{sender},
+        #{receiver}, #{content}, #{create_time}, #{session_id})
+    </insert>
+    <select id="getMessageBySessionId" resultMap="message">
+        SELECT * FROM message WHERE session_id = #{session_id}
+        <if test="time_begin != null">
+            AND create_time &gt;= #{time_begin}
+        </if>
+        <if test="time_end != null">
+            AND create_time &lt;= #{time_end}
+        </if>
+    </select>
+    <delete id="deleteMessage" parameterType="String">
+        delete * from message where create_time &lt; #{time_end}
+    </delete>
+
+</mapper>

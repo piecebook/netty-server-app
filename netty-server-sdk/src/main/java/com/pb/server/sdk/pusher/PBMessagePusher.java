@@ -12,13 +12,15 @@ import pb.server.dao.model.Message;
 public class PBMessagePusher implements MessagePusher {
 
     @Override
-    public void push(Message msg){
-        PBSessionManage sessionManager =(PBSessionManage) ContexHolder.getBean("sessionManager");
-        String msg_key = msg.get("s_uid")+msg.getMsg_id();
+    public void push(Message msg) {
+        PBSessionManage sessionManager = (PBSessionManage) ContexHolder.getBean("sessionManager");
+        String msg_key = msg.get("s_uid") + msg.getMsg_id();
         msg.setTime(System.currentTimeMillis());
-        msg.setParam("tm",msg.getTime().toString());
+        msg.setParam("tm", msg.getTime().toString());
         //MessageHolder.send_messages.put(msg_key,msg);
-        RedisUtil redisUtil = (RedisUtil) com.pb.server.sdk.util.ContexHolder.getBean("redisUtil");
+        RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");
+        //TODO:持久化msg
+        redisUtil.setForAHashMap("message", msg_key, msg);
         sessionManager.get(msg.get("r_uid")).write(msg);
     }
 }

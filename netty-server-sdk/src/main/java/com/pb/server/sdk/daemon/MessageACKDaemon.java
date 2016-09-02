@@ -14,8 +14,6 @@ public class MessageACKDaemon {
     private static Logger logger = LoggerFactory.getLogger(MessageACKDaemon.class);
     private RedisUtil redisUtil;// = (RedisUtil) ContexHolder.getBean("redisUtil");
     public void run() {
-        System.out.println("ACK running");
-
 
         while (true) {
             System.out.println("MessageACKDaemon Running!");
@@ -29,11 +27,6 @@ public class MessageACKDaemon {
                 continue;
             } else {
                 redisUtil.removeForAHash("message", msg_key);
-                //Message msg = MessageHolder.send_messages.remove(msg_key);
-                /*if(msg != null){
-                    logger.info("Insert messge :" + msg.toString());
-                    //TODO:从redis插入Mysql
-                }*/
             }
         }
     }

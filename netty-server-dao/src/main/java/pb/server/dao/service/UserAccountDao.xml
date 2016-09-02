@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pb.server.dao.service.UserAccountDao">
+
+    <insert id="addUserAccount" parameterType="_user_account">
+        INSERT INTO user_account(uid, password, salt, sex, email) VALUE(#{uid}, #{password}, #{salt}, #{sex}, #{email});
+    </insert>
+
+    <select id="getUserAccount" parameterType="String" resultType="_user_account">
+        SELECT * FROM user_account WHERE uid = #{uid}
+    </select>
+
+    <update id="update" parameterType="_user_account">
+        UPDATE user_account
+        <set>
+            <if test="uid != null">uid = #{uid},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="salt != null">salt = #{salt},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="email != null">email = #{email}</if>
+        </set>
+        WHERE uid = #{uid}
+    </update>
+
+</mapper>

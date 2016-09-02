@@ -2,6 +2,7 @@ package com.pb.server.sdk.daemon;
 
 import com.pb.server.cache.redisUtil.RedisUtil;
 import com.pb.server.sdk.pusher.PBMessagePusher;
+import com.pb.server.sdk.service.MessageService;
 import com.pb.server.sdk.util.ContexHolder;
 import pb.server.dao.model.Message;
 
@@ -14,6 +15,8 @@ import java.util.List;
 
 public class MessageResendDaemon {
     private RedisUtil redisUtil;// = (RedisUtil) ContexHolder.getBean("redisUtil");
+
+    private MessageService messageService;
 
     public void run() {
         //System.out.println("Resend running");
@@ -39,12 +42,17 @@ public class MessageResendDaemon {
             for (Message msg : offline_messages) {
                 redisUtil.removeForAHash("message", msg.get("s_uid") + msg.getMsg_id());
                 System.out.println("offline message:" + msg.toString());
-                //TODO: 1.msg持久化，   2.接收者下线
+                messageService.addMessage(msg);     //msg持久化
+                //TODO: 接收者下线
             }
         }
     }
 
     public void setRedisUtil(RedisUtil redisUtil) {
         this.redisUtil = redisUtil;
+    }
+
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
     }
 }

@@ -6,13 +6,14 @@ import java.sql.Timestamp;
  * Created by piecebook on 2016/8/18.
  */
 public class MessageModel {
+    private Long id;
     private String sender;
     private String receiver;
     private String content;
     private int type;
     private String create_time;
-    private long time_long;
-    private long session_id;
+    private Long time_long;
+    private Long session_id;
 
     public MessageModel() {
     }
@@ -24,6 +25,14 @@ public class MessageModel {
         this.type = 1;
         this.time_long = System.currentTimeMillis();
         create_time = new Timestamp(time_long).toString();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSender() {
@@ -66,25 +75,24 @@ public class MessageModel {
         this.create_time = create_time;
     }
 
-    public long getTime_long() {
+    public Long getTime_long() {
         return time_long;
     }
 
-    public void setTime_long(long time_long) {
+    public void setTime_long(Long time_long) {
         this.time_long = time_long;
+    }
+
+    public Long getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(Long session_id) {
+        this.session_id = session_id;
     }
 
     public void setTime_long() {
         this.time_long = Timestamp.valueOf(create_time).getTime();
-    }
-
-
-    public long getSession_id() {
-        return session_id;
-    }
-
-    public void setSession_id(long session_id) {
-        this.session_id = session_id;
     }
 
     @Override

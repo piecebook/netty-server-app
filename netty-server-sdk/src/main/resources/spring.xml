@@ -29,7 +29,17 @@
             </map>
         </property>
     </bean>
+    <bean id="mssageService" class="ccom.pb.server.sdk.service.MessageServiceImpl">
+        <property name="MessageDao">
+            <ref bean="messageDao"/>
+        </property>
+    </bean>
     <bean id="messagePusher" class="com.pb.server.sdk.pusher.PBMessagePusher"/>
-    <bean id="offlineMessageManager" class="com.pb.server.sdk.MessageFactory.OfflineMessageManager"/>
+    <bean id="offlineMessageManager" class="com.pb.server.sdk.MessageFactory.OfflineMessageManager">
+        <property name="messageService">
+            <ref bean="messageService"/>
+        </property>
+    </bean>
+
 
 </beans>

@@ -2,7 +2,11 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <mappers>
-        <mapper resource="mybatis_mapper/message_mapper.xml"/>
-    </mappers>
+    <settings>
+        <setting name="logImpl" value="LOG4J2"/>
+    </settings>
+    <typeAliases>
+        <typeAlias type="pb.server.dao.model.MessageModel" alias="_message"/>
+        <typeAlias type="pb.server.dao.model.UserAccount" alias="_user_account"/>
+    </typeAliases>
 </configuration>

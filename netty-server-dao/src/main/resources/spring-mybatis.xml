@@ -7,6 +7,10 @@
     <!-- 加载配置文件 -->
     <!--<context:property-placeholder location="classpath:db.properties"/>-->
 
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="classpath:pb.server.dao.service" />
+    </bean>
+
     <!-- 数据源，使用dbcp -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" /><!-- 这里的name不能直接使用driver，必须是driverClassName -->
@@ -26,6 +30,10 @@
     <!-- 原始dao接口 -->
     <bean id="messageDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="pb.server.dao.service.MessageDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="userAccountDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="pb.server.dao.service.UserAccountDao"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 </beans>
