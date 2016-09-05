@@ -19,10 +19,19 @@
             <ref bean="redisUtil"/>
         </property>
     </bean>
+    <bean id="messageMysqlDaemon" class="com.pb.server.sdk.daemon.MessageMysqlDaemon">
+        <property name="redisUtil">
+            <ref bean="redisUtil"/>
+        </property>
+        <property name="messageService">
+            <ref bean="messageService"/>
+        </property>
+    </bean>
 
     <task:scheduler id="myscheduler" pool-size="10"/>
     <task:scheduled-tasks scheduler="myscheduler">
         <task:scheduled ref="messageResendDaemon" method="run" cron="0,15,30,45 * * * * ?"/>
         <task:scheduled ref="messageACKDaemon" method="run" fixed-delay="1"/>
+        <task:scheduled ref="messageMysqlDaemon" method="run" fixed-rate="10000"/>
     </task:scheduled-tasks>
 </beans>

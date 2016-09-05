@@ -11,6 +11,8 @@ public interface MessageService {
 
     public void addMessage(Message message);
 
+    public void addMessageList(List<Message> list);
+
     public void addOfflineMessage(Message message);
 
     public List<Message> getMessageBySessionId(long session_id,String time_begin,String time_end);

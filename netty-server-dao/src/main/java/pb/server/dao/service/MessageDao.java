@@ -11,6 +11,8 @@ import java.util.List;
 public interface MessageDao {
     public void addMessage(MessageModel message);
 
+    public void addMessageList(List<MessageModel> list);
+
     public void addOfflineMessage(MessageModel message);
 
     public List<MessageModel> getMessageBySessionId(@Param("session_id") long session_id, @Param("time_begin") String time_begin, @Param("time_end") String time_end);

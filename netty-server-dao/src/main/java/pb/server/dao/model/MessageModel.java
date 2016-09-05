@@ -81,6 +81,7 @@ public class MessageModel {
 
     public void setTime_long(Long time_long) {
         this.time_long = time_long;
+        this.create_time = new Timestamp(time_long).toString();
     }
 
     public Long getSession_id() {

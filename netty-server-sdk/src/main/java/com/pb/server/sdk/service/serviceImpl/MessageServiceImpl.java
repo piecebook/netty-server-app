@@ -20,13 +20,20 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void addMessage(Message message) {
-        logger.info("insert message " + message.toString());
+        logger.info("insert message: " + message.toString());
         messageDao.addMessage(MessageUtil.toMessageModel(message));
     }
 
     @Override
+    public void addMessageList(List<Message> list) {
+        logger.info("mult insert: "+list.toString());
+        List<MessageModel> models = MessageUtil.toMultMessageModel(list);
+        messageDao.addMessageList(models);
+    }
+
+    @Override
     public void addOfflineMessage(Message message) {
-        logger.info("insert offline message " + message.toString());
+        logger.info("insert offline message: " + message.toString());
         messageDao.addOfflineMessage(MessageUtil.toMessageModel(message));
     }
 

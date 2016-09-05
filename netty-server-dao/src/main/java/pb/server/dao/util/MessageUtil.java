@@ -17,7 +17,7 @@ public class MessageUtil {
         msg.setTime(model.getTime_long());
         msg.setParam("s_uid", model.getSender());
         msg.setParam("r_uid", model.getReceiver());
-        msg.setParam("cot", model.getContent());
+        msg.setParam("msg", model.getContent());
         msg.setParam("sid", model.getSession_id().toString());
         msg.setMsg_id(Integer.valueOf(model.getId().toString()));
         return msg;
@@ -30,7 +30,7 @@ public class MessageUtil {
         if (message.getTime() != null)
             model.setTime_long(message.getTime());
         else model.setTime_long(System.currentTimeMillis());
-        model.setContent(message.get("cot"));
+        model.setContent(message.get("msg"));
         model.setSession_id(Long.valueOf(message.get("sid")));
         model.setType(message.getType());
         return model;
@@ -45,7 +45,7 @@ public class MessageUtil {
             msg.setTime(model.getTime_long());
             msg.setParam("s_uid", model.getSender());
             msg.setParam("r_uid", model.getReceiver());
-            msg.setParam("cot", model.getContent());
+            msg.setParam("msg", model.getContent());
             msg.setParam("sid", model.getSession_id().toString());
             msg.setMsg_id(Integer.valueOf(model.getId().toString()));
             list.add(msg);
@@ -62,7 +62,7 @@ public class MessageUtil {
             if (message.getTime() != null)
                 model.setTime_long(message.getTime());
             else model.setTime_long(System.currentTimeMillis());
-            model.setContent(message.get("cot"));
+            model.setContent(message.get("msg"));
             model.setSession_id(Long.valueOf(message.get("sid")));
             model.setType(message.getType());
             list.add(model);

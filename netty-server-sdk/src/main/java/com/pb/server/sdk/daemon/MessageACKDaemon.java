@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 public class MessageACKDaemon {
     private static Logger logger = LoggerFactory.getLogger(MessageACKDaemon.class);
     private RedisUtil redisUtil;// = (RedisUtil) ContexHolder.getBean("redisUtil");
+
     public void run() {
 
         while (true) {
@@ -21,7 +22,7 @@ public class MessageACKDaemon {
             try {
                 msg_key = MessageHolder.rec_messages.take();
             } catch (InterruptedException e) {
-                //TODO: deal with Exception
+                logger.error("MessageACKDaemon:", e);
             }
             if (msg_key == null) {
                 continue;

@@ -19,7 +19,7 @@ public class PBMessagePusher implements MessagePusher {
         msg.setParam("tm", msg.getTime().toString());
         //MessageHolder.send_messages.put(msg_key,msg);
         RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");
-        //TODO:持久化msg
+        redisUtil.list_right_push("message_mysql_list", msg);
         redisUtil.setForAHashMap("message", msg_key, msg);
         sessionManager.get(msg.get("r_uid")).write(msg);
     }

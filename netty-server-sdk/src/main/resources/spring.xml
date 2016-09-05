@@ -6,6 +6,7 @@
 
     <import resource="classpath*:spring-redis.xml"/>
     <import resource="classpath*:spring-task.xml"/>
+    <import resource="classpath*:spring-mybatis.xml"/>
 
     <bean id="sessionManager" class="com.pb.server.sdk.session.PBSessionManage"/>
     <bean id="pbIOHandler" class="com.pb.server.sdk.handler.PBIoHandler" scope="prototype">
@@ -29,7 +30,7 @@
             </map>
         </property>
     </bean>
-    <bean id="mssageService" class="ccom.pb.server.sdk.service.MessageServiceImpl">
+    <bean id="messageService" class="com.pb.server.sdk.service.serviceImpl.MessageServiceImpl">
         <property name="MessageDao">
             <ref bean="messageDao"/>
         </property>
@@ -40,6 +41,5 @@
             <ref bean="messageService"/>
         </property>
     </bean>
-
 
 </beans>
