@@ -1,14 +1,14 @@
-package com.pb.server.sdk.util;
+package com.pb.server.service.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class StringEncrypt {
-    final static String SHA256 = "SHA-256";
+    final private static String SHA256 = "SHA-256";
 
-    final static String MD5 = "MD5";
+    final private static String MD5 = "MD5";
 
-    final static String SHA1 = "SHA-1";
+    final private static String SHA1 = "SHA-1";
 
 
 

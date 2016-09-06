@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+  <!-- springMVC前端控制器 -->
+  <servlet>
+    <servlet-name>springmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- contextConfigLocation配置springMVC加载的配置文件（配置处理器映射器、适配器的等等）
+    如果不配置，默认加载的是WEB-INF/servlet名称-servlet.xml（springmvc-servlet.xml） -->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:springmvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <!-- 1、*.action访问以.action结尾的DispatcherServlet进行解析
+    2、/表示所有访问的地址都由DispatcherServlet解析，对于静态文件的解析需要配置不让DispatcherServlet解析
+    使用此种方法可以实现RESTful风格的url
+    3、/*这种配置不对，使用此种配置，最终要转发到一个jsp页面，仍然会由DispatcherServlet解析jsp地址，
+    不能根据此jsp页面找到Handler -->
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

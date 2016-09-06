@@ -1,7 +1,7 @@
 package com.pb.server.sdk.MessageFactory;
 
 
-import com.pb.server.sdk.service.MessageService;
+import com.pb.server.service.message.MessageService;
 import pb.server.dao.model.Message;
 
 /**

@@ -2,8 +2,10 @@ package com.pb.server.sdk.daemon;
 
 import com.pb.server.cache.redisUtil.RedisUtil;
 import com.pb.server.sdk.pusher.PBMessagePusher;
-import com.pb.server.sdk.service.MessageService;
+import com.pb.server.sdk.session.PBSession;
+import com.pb.server.sdk.session.SessionManage;
 import com.pb.server.sdk.util.ContexHolder;
+import com.pb.server.service.message.MessageService;
 import pb.server.dao.model.Message;
 
 import java.util.ArrayList;
@@ -43,7 +45,18 @@ public class MessageResendDaemon {
                 redisUtil.removeForAHash("message", msg.get("s_uid") + msg.getMsg_id());
                 System.out.println("offline message:" + msg.toString());
                 messageService.addMessage(msg);     //msg持久化
-                //TODO: 接收者下线
+
+
+
+
+                //接收者下线
+                SessionManage sessionManager = (SessionManage) ContexHolder.getBean("sessionManager");
+                PBSession session = sessionManager.get(msg.get("r_uid"));
+                if (session!=null){
+                    session.close();
+                }
+                sessionManager.remove(msg.get("r_uid"));
+                //TODO: 这里需要重构，接收者下线
             }
         }
     }

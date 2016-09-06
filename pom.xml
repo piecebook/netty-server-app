@@ -12,6 +12,8 @@
         <module>netty-server-cache</module>
         <module>netty-server-sdk</module>
         <module>netty-server-dao</module>
+        <module>netty-server-web</module>
+        <module>netty-server-service</module>
     </modules>
 
     <build>

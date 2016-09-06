@@ -9,28 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>netty-server-sdk</artifactId>
+    <artifactId>netty-server-service</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.2.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>Netty-Server</groupId>
-            <artifactId>netty-server-cache</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>Netty-Server</groupId>
-            <artifactId>netty-server-service</artifactId>
-            <version>1.0</version>
-        </dependency>
         <dependency>
             <groupId>Netty-Server</groupId>
             <artifactId>netty-server-dao</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
+
 
 </project>

@@ -1,7 +1,7 @@
 package com.pb.server.sdk.daemon;
 
 import com.pb.server.cache.redisUtil.RedisUtil;
-import com.pb.server.sdk.service.MessageService;
+import com.pb.server.service.message.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pb.server.dao.model.Message;
