@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans.xsd">
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 加载配置文件 -->
-    <!--<context:property-placeholder location="classpath:db.properties"/>-->
+    <context:property-placeholder location="classpath*:env/${spring.profiles.active}.properties" ignore-unresolvable="true"/>
+    <!--<util:properties id="value" location="classpath:env/dev.properties"/>-->
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/><!-- 这里的name不能直接使用driver，必须是driverClassName -->
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.pwd}"/>
+    </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="classpath:pb.server.dao.service" />
+        <property name="basePackage" value="classpath:pb.server.dao.service"/>
     </bean>
 
     <!-- 数据源，使用dbcp -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" /><!-- 这里的name不能直接使用driver，必须是driverClassName -->
-        <property name="url" value="jdbc:mysql://localhost:3306/localtest?useUnicode=true&amp;characterEncoding=utf8" />
-        <property name="username" value="root" />
-        <property name="password" value="" />
-    </bean>
+
 
     <!-- sqlSessionFactory -->
-    <bean id = "sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 加载mybatis的配置文件 -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!-- 数据源 -->
@@ -30,10 +36,11 @@
     <!-- 原始dao接口 -->
     <bean id="messageDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="pb.server.dao.service.MessageDao"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="sqlSessionFactory" ref="mySqlSessionFactory"/>
     </bean>
     <bean id="userAccountDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="pb.server.dao.service.UserAccountDao"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="sqlSessionFactory" ref="mySqlSessionFactory"/>
     </bean>
+
 </beans>

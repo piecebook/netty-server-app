@@ -35,9 +35,6 @@ public class DaoTest {
 
         UserAccount user = userAccountDao.getUserAccount("xiaoming");
         System.out.println(user.toString());
-        userAccountDao.update(userm);
-        user = userAccountDao.getUserAccount("xiaoming");
-        System.out.println(user.toString());
 
     }
 }

@@ -30,6 +30,8 @@ public class MessageDecoder extends ByteToMessageDecoder {
 		msg.setMsg_id(msg_id);
 		msg.setLength(body_length);
 		msg.setContent(PBProtocol.Decode(encode,enzip,inbuf));
+
+		msg.setTime(System.currentTimeMillis());
 		out.add(msg);
 	}
 

@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/task
-       http://www.springframework.org/schema/task/spring-task.xsd">
+    http://www.springframework.org/schema/task/spring-task.xsd">
     <bean id="messageResendDaemon" class="com.pb.server.sdk.daemon.MessageResendDaemon">
         <property name="redisUtil">
             <ref bean="redisUtil"/>

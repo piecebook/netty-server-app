@@ -1,26 +1,32 @@
 package com.pb.server.sdk.handler;
 
 
+import com.pb.server.sdk.constant.PBCONSTANT;
 import pb.server.dao.model.Message;
 import com.pb.server.sdk.session.PBSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 心跳包处理器
+ */
 public class PingHandler implements PBRequestHandler {
 
-	private static Logger logger = LoggerFactory.getLogger(PingHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(PingHandler.class);
 
-	@Override
-	public Message process(PBSession session, Message msg) {
-		logger.info("Ping from:" + session.getSession().remoteAddress());
-		Message reply = new Message();
-		/*reply.setContent(PBCONSTANT.PING);
-		reply.setReceiver_uid(msg.getSender_uid());
-		reply.setSender_uid(PBCONSTANT.SYSTEM);
-		reply.setTitle(PBCONSTANT.PING);
-		reply.setType(PBCONSTANT.PING);
-		reply.setTime(System.currentTimeMillis());*/
-		return reply;
-	}
+    /**
+     * @param session 用户session
+     * @param msg     ping 包
+     * @return ping_ack 包
+     */
+    @Override
+    public Message process(PBSession session, Message msg) {
+        logger.info("Ping from:" + session.getSession().remoteAddress());
+        Message reply = new Message();
+        reply.setType(PBCONSTANT.PING_ACK_FLAG);
+        reply.setTime(System.currentTimeMillis());
+        reply.setParam("r_uid", msg.get("s_uid"));
+        return reply;
+    }
 
 }

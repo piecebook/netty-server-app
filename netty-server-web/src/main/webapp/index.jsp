@@ -12,11 +12,11 @@
 </head>
 <body>
 <form action="account/register" method="post">
-    用户名:<input type="text" name="uid">
-    密码:<input type="password" name="pwd">
+    用户名:<input type="text" name="uid"><br>
+    密码:<input type="password" name="pwd"><br>
     <input type="radio" name="sex" value="0" checked>男
-    <input type="radio" name="sex" value="1">女
-    邮件：<input type="text" name="email">
+    <input type="radio" name="sex" value="1">女<br>
+    邮件：<input type="text" name="email"><br>
     <input type="submit">
 </form>
 </body>

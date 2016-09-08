@@ -36,8 +36,9 @@ public class MessageResendDaemon {
         }
 
         if (!resend_list.isEmpty()) {
+            PBMessagePusher messagePusher = ((PBMessagePusher) ContexHolder.getBean("messagePusher"));
             for (Message msg : resend_list) {
-                ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(msg);
+                messagePusher.push(msg);
             }
         }
         if (!offline_messages.isEmpty()) {

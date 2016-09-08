@@ -11,11 +11,17 @@ import pb.server.dao.model.Message;
  */
 public class PBMessagePusher implements MessagePusher {
 
+    /**
+     *
+     * @param msg 需要发送的消息体
+     *
+     * 功能：将消息推送到接收用户的
+     */
     @Override
     public void push(Message msg) {
         PBSessionManage sessionManager = (PBSessionManage) ContexHolder.getBean("sessionManager");
         String msg_key = msg.get("s_uid") + msg.getMsg_id();
-        msg.setTime(System.currentTimeMillis());
+        //msg.setTime(System.currentTimeMillis());
         msg.setParam("tm", msg.getTime().toString());
         //MessageHolder.send_messages.put(msg_key,msg);
         RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");

@@ -25,7 +25,7 @@ public class MessageMysqlDaemon {
             list.add(message);
             if (message.getTime() > current_time) break;
         }
-        logger.info("mult insert: " + list.toString());
+        //logger.info("mult insert: " + list.toString());
         if (list.size() > 0) messageService.addMessageList(list);
     }
 

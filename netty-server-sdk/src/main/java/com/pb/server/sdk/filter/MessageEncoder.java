@@ -11,6 +11,7 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf outbuf)
             throws Exception {
+        msg.getContent().put("tm", msg.getTime().toString());
         byte[] body = PBProtocol.Encode(msg.getEncode(), msg.getEnzip(), msg.getContent());
         int body_length = body.length;
         outbuf.writeInt(body_length);

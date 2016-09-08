@@ -3,6 +3,14 @@ package pb.server.dao.model;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * 消息传输类
+ * 该类用于消息在网络中传输
+ * 序列化传输协议：PBProtocol
+ *
+ * 消息数据成员 为 消息头
+ * HashMap content 为 消息体
+ */
 public class Message implements Serializable{
     private static final long serialVersionUID = 1L;
     private byte type;// 消息类型
@@ -11,6 +19,8 @@ public class Message implements Serializable{
     private int length;// 消息体长度
     private int msg_id;// 消息id
     private Long time;// 消息时间，传输时放进HashMap content里面
+
+    //消息体
     private HashMap<String, String> content = new HashMap<String, String>();
 
     public Message() {
