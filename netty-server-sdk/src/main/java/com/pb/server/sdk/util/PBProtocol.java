@@ -15,6 +15,10 @@ import java.util.Map;
 /**
  * Created by piecebook on 16-8-6.
  */
+
+/**
+ * 消息传输协议
+ */
 public class PBProtocol {
     private static Logger logger = LoggerFactory.getLogger(PBProtocol.class);
 

@@ -9,6 +9,10 @@ import pb.server.dao.model.Message;
 /**
  * Created by piecebook on 2016/8/8.
  */
+
+/**
+ * 该类处理 所有 服务端推送给客户端的消息
+ */
 public class PBMessagePusher implements MessagePusher {
 
     /**
@@ -22,6 +26,7 @@ public class PBMessagePusher implements MessagePusher {
         PBSessionManage sessionManager = (PBSessionManage) ContexHolder.getBean("sessionManager");
         String msg_key = msg.get("s_uid") + msg.getMsg_id();
         //msg.setTime(System.currentTimeMillis());
+        //把时间放进消息体传输
         msg.setParam("tm", msg.getTime().toString());
         //MessageHolder.send_messages.put(msg_key,msg);
         RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");

@@ -12,13 +12,23 @@ import java.util.List;
 /**
  * Created by piecebook on 2016/9/5.
  */
+
+/**
+ * 消息持久化线程
+ *
+ * 该类作为单独线程运行，把收到的 转发消息 持久化到mysql里
+ * run()方法每隔10秒钟执行一次
+ */
 public class MessageMysqlDaemon {
     private static Logger logger = LoggerFactory.getLogger(MessageMysqlDaemon.class);
     private RedisUtil redisUtil;
     private MessageService messageService;
 
+    /**
+     * 小于当前时间的消息持久化到mysql
+     */
     public void run() {
-        Long current_time = System.currentTimeMillis();
+        Long current_time = System.currentTimeMillis();//当前时间
         List<Message> list = new ArrayList<>();
         while (redisUtil.list_size("message_mysql_list") > 0) {
             Message message = (Message) redisUtil.list_left_pop("message_mysql_list");
