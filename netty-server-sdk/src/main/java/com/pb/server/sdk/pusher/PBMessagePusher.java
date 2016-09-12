@@ -1,6 +1,8 @@
 package com.pb.server.sdk.pusher;
 
 import com.pb.server.cache.redisUtil.RedisUtil;
+import com.pb.server.sdk.MessageFactory.OfflineMessageManager;
+import com.pb.server.sdk.session.PBSession;
 import com.pb.server.sdk.session.PBSessionManage;
 import com.pb.server.sdk.util.ContexHolder;
 import pb.server.dao.model.Message;
@@ -22,16 +24,26 @@ public class PBMessagePusher implements MessagePusher {
      * 功能：将消息推送到接收用户的
      */
     @Override
-    public void push(Message msg) {
+    public String push(Message msg) {
         PBSessionManage sessionManager = (PBSessionManage) ContexHolder.getBean("sessionManager");
-        String msg_key = msg.get("s_uid") + msg.getMsg_id();
-        //msg.setTime(System.currentTimeMillis());
-        //把时间放进消息体传输
-        msg.setParam("tm", msg.getTime().toString());
-        //MessageHolder.send_messages.put(msg_key,msg);
-        RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");
-        redisUtil.list_right_push("message_mysql_list", msg);
-        redisUtil.setForAHashMap("message", msg_key, msg);
-        sessionManager.get(msg.get("r_uid")).write(msg);
+        PBSession receiver_session = sessionManager.get(msg.get("r_uid"));//得到接收用户连接的session
+
+        if(receiver_session == null){
+            //用户不在线
+            ((OfflineMessageManager) ContexHolder.getBean("offlineMessageManager")).add(msg);
+            return "fl";
+        }else {
+            //用户在线
+            String msg_key = msg.get("s_uid") + msg.getMsg_id();
+            //msg.setTime(System.currentTimeMillis());
+            //把时间放进消息体传输
+            msg.setParam("tm", msg.getTime().toString());
+            //MessageHolder.send_messages.put(msg_key,msg);
+            RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");
+            redisUtil.list_right_push("message_mysql_list", msg);
+            redisUtil.setForAHashMap("message", msg_key, msg);
+            receiver_session.write(msg);
+            return "sc";
+        }
     }
 }

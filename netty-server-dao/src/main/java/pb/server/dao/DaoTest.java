@@ -1,20 +1,26 @@
 package pb.server.dao;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import pb.server.dao.model.Friend;
+import pb.server.dao.service.FriendsDao;
+
+import java.util.List;
+
 /**
  * Created by piecebook on 2016/9/1.
  */
 public class DaoTest {
     public static void main(String[] args) {
-                int x[] = new int[15];
-                final int y[] = x;
-                y[5] = 123;
-                System.out.println(y[5]);
 
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-mybatis.xml");
+        FriendsDao friendsDao = (FriendsDao) context.getBean("friendsDao");
+        List<Friend> list = friendsDao.getFriends(1);
+        for (Friend msg : list) {
+            System.out.println(msg.toString());
+        }
 
-        /*ApplicationContext context = new ClassPathXmlApplicationContext("spring-mybatis.xml");
-
-
-        *//*MessageDao messageDao = (MessageDao) context.getBean("messageDao");
+        /*MessageDao messageDao = (MessageDao) context.getBean("messageDao");
         //MessageModel msg = new MessageModel("tom","jack","hello jack");
         //messageDao.addMessage(msg);
         List<MessageModel> list = messageDao.getMessageBySessionId(1, "2016-08-18 15:57:13", null);

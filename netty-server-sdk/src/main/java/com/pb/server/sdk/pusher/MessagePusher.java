@@ -11,5 +11,5 @@ import pb.server.dao.model.Message;
  * 向客户端推送消息的类必须实现该接口
  */
 public interface MessagePusher {
-    public void push(Message msg);
+    public String push(Message msg);
 }

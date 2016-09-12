@@ -22,4 +22,8 @@
         WHERE uid = #{uid}
     </update>
 
+    <select id="getByid" parameterType="long" resultType="_user_account">
+        SELECT * FROM user_account WHERE id = #{id}
+    </select>
+
 </mapper>

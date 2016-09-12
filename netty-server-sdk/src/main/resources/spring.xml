@@ -32,6 +32,13 @@
                 <entry key="logout">
                     <bean class="com.pb.server.sdk.handler.LogoutHandler"/>
                 </entry>
+                <entry key="friends">
+                    <bean class="com.pb.server.sdk.handler.FriendsHandler">
+                        <property name="friendsService">
+                            <ref bean="friendsService"/>
+                        </property>
+                    </bean>
+                </entry>
             </map>
         </property>
     </bean>

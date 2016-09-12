@@ -10,6 +10,8 @@ public class PBCONSTANT {
     public static final byte ACK_FLAG = 5;
     public static final byte PING_FLAG = 6;
     public static final byte PING_ACK_FLAG = 61;
+    public static final byte ADD_FRIENDS_FLAG = 7 ;
+    public static final byte ADD_FRIENDS_ACK_FLAG = 71;
 
 
     public static final String ACK = "ack";
@@ -19,4 +21,5 @@ public class PBCONSTANT {
     public static final String SUCCESS = "sc";
     public static final String LOGOUT = "logout";
     public static final String PING = "ping";
+    public static final String FRIENDS = "friends";
 }

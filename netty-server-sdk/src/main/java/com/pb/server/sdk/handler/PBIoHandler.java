@@ -61,6 +61,10 @@ public class PBIoHandler extends SimpleChannelInboundHandler<Message> {
                 case PBCONSTANT.PING_FLAG:
                     reply = handlers.get(PBCONSTANT.PING).process(pbSession, msg);
                     break;
+                case PBCONSTANT.ADD_FRIENDS_ACK_FLAG:
+                case PBCONSTANT.ADD_FRIENDS_FLAG:
+                    reply = handlers.get(PBCONSTANT.FRIENDS).process(pbSession, msg);
+                    break;
                 default:
             }
             pbSession.write(reply);

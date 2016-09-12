@@ -15,5 +15,13 @@
             <ref bean="userAccountDao"/>
         </property>
     </bean>
+    <bean id="friendsService" class="com.pb.server.service.user.serviceImpl.FriendsServiceImpl">
+        <property name="friendsDao">
+            <ref bean="friendsDao"/>
+        </property>
+        <property name="userAccountDao">
+            <ref bean="userAccountDao"/>
+        </property>
+    </bean>
 
 </beans>
