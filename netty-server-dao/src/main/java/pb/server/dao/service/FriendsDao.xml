@@ -2,10 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pb.server.dao.service.FriendsDao">
 
-    <resultMap id="friends" type="pb.server.dao.model.Friend">
+    <resultMap id="friendship" type="pb.server.dao.model.FriendShip">
         <id column="id" property="sid"/>
         <result column="user_id_1" property="uid1"/>
         <result column="user_id_2" property="uid2"/>
+    </resultMap>
+    <resultMap id="friend" type="pb.server.dao.model.Friend">
+        <result column="sid" property="sid"/>
+        <result column="user_id" property="id"/>
+        <result column="uid" property="uid"/>
     </resultMap>
 
     <insert id="add">
@@ -19,8 +24,14 @@
         DELETE * FROM friends WHERE user_id_1 = #{uid1} AND user_id_2 = #{uid2}
     </delete>
 
-    <select id="getFriends" resultMap="friends" parameterType="long">
+    <select id="getFriendShip" resultMap="friendship" parameterType="long">
         SELECT * FROM friends WHERE user_id_1 = #{uid} OR user_id_2 = #{uid}
+    </select>
+
+    <select id="getFriends" parameterType="long" resultMap="friend">
+        SELECT friend.sid, friend.user_id, main.uid FROM user_account as main RIGHT JOIN
+        (SELECT id sid, CASE WHEN user_id_1 = #{uid} THEN user_id_2 ELSE user_id_1 END AS user_id FROM friends WHERE user_id_1 = #{uid} OR user_id_2 = #{uid}) as friend
+        ON friend.user_id = main.id
     </select>
 
 </mapper>

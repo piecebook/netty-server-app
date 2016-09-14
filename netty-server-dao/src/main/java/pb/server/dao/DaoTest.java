@@ -14,11 +14,22 @@ public class DaoTest {
     public static void main(String[] args) {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-mybatis.xml");
+
         FriendsDao friendsDao = (FriendsDao) context.getBean("friendsDao");
-        List<Friend> list = friendsDao.getFriends(1);
-        for (Friend msg : list) {
-            System.out.println(msg.toString());
+        List<Friend> friends = friendsDao.getFriends((long) 8);
+
+        for (Friend friend : friends) {
+            System.out.println(friend.toString());
         }
+
+        /*UserAccountDao userAccountDao = (UserAccountDao)context.getBean("userAccountDao");
+        List<Long> ids = new ArrayList<>();
+        ids.add(Long.valueOf(1));
+        ids.add(Long.valueOf(4));
+        List<String> uids = userAccountDao.getUids(ids);
+        for (String uid : uids) {
+            System.out.println(uid);
+        }*/
 
         /*MessageDao messageDao = (MessageDao) context.getBean("messageDao");
         //MessageModel msg = new MessageModel("tom","jack","hello jack");

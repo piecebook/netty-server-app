@@ -3,7 +3,7 @@
 
     <context-param>
         <param-name>spring.profiles.active</param-name>
-        <param-value>deploy</param-value>
+        <param-value>dev</param-value>
     </context-param>
     <!-- springMVC前端控制器 -->
     <servlet>
@@ -38,9 +38,9 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    <error-page>
+    <!--<error-page>
         <error-code>404</error-code>
-        <location>/404.html</location>
+        <location>/WEB-INF/jsp/404.html</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
@@ -49,5 +49,5 @@
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
         <location>/WEB-INF/jsp/500.html</location>
-    </error-page>
+    </error-page>-->
 </web-app>

@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pb.server.dao.service.UserAccountDao">
 
+    <resultMap id="uids" type="string"/>
+
     <insert id="addUserAccount" parameterType="_user_account">
         INSERT INTO user_account(uid, password, salt, sex, email) VALUE(#{uid}, #{password}, #{salt}, #{sex}, #{email});
     </insert>
@@ -24,6 +26,13 @@
 
     <select id="getByid" parameterType="long" resultType="_user_account">
         SELECT * FROM user_account WHERE id = #{id}
+    </select>
+
+    <select id="getUids" parameterType="list" resultMap="uids">
+        SELECT id, uid FROM user_account WHERE id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.pb.server.service.user;
 
 import pb.server.dao.model.Friend;
+import pb.server.dao.model.FriendShip;
 
 import java.util.List;
 
@@ -14,7 +15,9 @@ public interface FriendsService {
 
     public void remove(final String uid1, final String uid2);
 
-    public List<Friend> getFriends(final String uid);
+    public List<FriendShip> getFriendShip(final String uid);
+
+    public List<FriendShip> getFriendShip(final long uid);
 
     public List<Friend> getFriends(final long uid);
 }

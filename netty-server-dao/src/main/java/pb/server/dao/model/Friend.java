@@ -1,12 +1,12 @@
 package pb.server.dao.model;
 
 /**
- * Created by piecebook on 2016/9/12.
+ * Created by piecebook on 2016/9/14.
  */
 public class Friend {
     private long sid;
-    private long uid1;
-    private long uid2;
+    private long id;
+    private String uid;
 
     public long getSid() {
         return sid;
@@ -16,28 +16,28 @@ public class Friend {
         this.sid = sid;
     }
 
-    public long getUid1() {
-        return uid1;
+    public long getId() {
+        return id;
     }
 
-    public void setUid1(long uid1) {
-        this.uid1 = uid1;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public long getUid2() {
-        return uid2;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUid2(long uid2) {
-        this.uid2 = uid2;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Override
     public String toString() {
         return "Friend{" +
                 "sid=" + sid +
-                ", uid1=" + uid1 +
-                ", uid2=" + uid2 +
+                ", id=" + id +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }

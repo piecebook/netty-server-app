@@ -29,4 +29,12 @@
             <ref bean="userAccountService"/>
         </property>
     </bean>
+    <bean id="friendController" class="com.pb.server.web.controller.FriendsController">
+        <property name="friendsService">
+            <ref bean="friendsService"/>
+        </property>
+        <property name="userAccountService">
+            <ref bean="userAccountService"/>
+        </property>
+    </bean>
 </beans>

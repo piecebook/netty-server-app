@@ -2,6 +2,7 @@ package pb.server.dao.service;
 
 import org.apache.ibatis.annotations.Param;
 import pb.server.dao.model.Friend;
+import pb.server.dao.model.FriendShip;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public interface FriendsDao {
     public long add(@Param("uid1") long uid1, @Param("uid2") long uid2);
 
     public void remove(@Param("uid1") long uid1, @Param("uid2") long uid2);
+
+    public List<FriendShip> getFriendShip(long uid);
 
     public List<Friend> getFriends(long uid);
 }

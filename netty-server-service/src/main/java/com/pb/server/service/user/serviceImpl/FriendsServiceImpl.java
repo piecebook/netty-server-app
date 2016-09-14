@@ -3,6 +3,7 @@ package com.pb.server.service.user.serviceImpl;
 import com.pb.server.service.user.FriendsService;
 import com.sun.istack.internal.logging.Logger;
 import pb.server.dao.model.Friend;
+import pb.server.dao.model.FriendShip;
 import pb.server.dao.model.UserAccount;
 import pb.server.dao.service.FriendsDao;
 import pb.server.dao.service.UserAccountDao;
@@ -38,14 +39,19 @@ public class FriendsServiceImpl implements FriendsService {
     }
 
     @Override
-    public List<Friend> getFriends(String uid) {
+    public List<FriendShip> getFriendShip(String uid) {
         UserAccount user = userAccountDao.getUserAccount(uid);
-        return this.getFriends(user.getId());
+        return this.getFriendShip(user.getId());
+    }
+
+    @Override
+    public List<FriendShip> getFriendShip(long uid) {
+        log.info("get friend:" + uid);
+        return friendsDao.getFriendShip(uid);
     }
 
     @Override
     public List<Friend> getFriends(long uid) {
-        log.info("get friend:" + uid);
         return friendsDao.getFriends(uid);
     }
 

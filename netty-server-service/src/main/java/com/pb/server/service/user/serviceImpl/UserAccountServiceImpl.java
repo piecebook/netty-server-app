@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import pb.server.dao.model.UserAccount;
 import pb.server.dao.service.UserAccountDao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by piecebook on 2016/9/6.
  */
@@ -40,8 +43,20 @@ public class UserAccountServiceImpl implements UserAccountService {
         String salt = user.getSalt();
         String hash = PWD_Util.getHash(pwd + salt);
         if (hash.equals(user.getPassword()))
-            return "success";
+            return user.getId() + "";
         else return "fail";
+    }
+
+    @Override
+    public UserAccount getByid(Long id) {
+        if (id == null) return null;
+        return userAccountDao.getByid(id);
+    }
+
+    @Override
+    public List<String> getUids(List<Long> ids) {
+        if (ids.size() == 0) return new ArrayList<>(0);
+        return userAccountDao.getUids(ids);
     }
 
     public void setUserAccountDao(UserAccountDao userAccountDao) {
