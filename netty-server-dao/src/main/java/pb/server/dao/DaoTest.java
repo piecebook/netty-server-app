@@ -3,7 +3,7 @@ package pb.server.dao;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pb.server.dao.model.Friend;
-import pb.server.dao.service.FriendsDao;
+import pb.server.dao.service.UserAccountDao;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ public class DaoTest {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-mybatis.xml");
 
-        FriendsDao friendsDao = (FriendsDao) context.getBean("friendsDao");
-        List<Friend> friends = friendsDao.getFriends((long) 8);
+        UserAccountDao userAccountDao = (UserAccountDao) context.getBean("userAccountDao");
+        List<Friend> friends = userAccountDao.search("%piece%");
 
         for (Friend friend : friends) {
             System.out.println(friend.toString());

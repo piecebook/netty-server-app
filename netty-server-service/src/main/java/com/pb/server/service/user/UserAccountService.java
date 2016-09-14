@@ -1,5 +1,6 @@
 package com.pb.server.service.user;
 
+import pb.server.dao.model.Friend;
 import pb.server.dao.model.UserAccount;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface UserAccountService {
     public UserAccount getByid(Long id);
 
     public List<String> getUids(List<Long> ids);
+
+    public List<Friend> search(final String key);
 }

@@ -4,6 +4,7 @@ import com.pb.server.service.user.UserAccountService;
 import com.pb.server.service.util.PWD_Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pb.server.dao.model.Friend;
 import pb.server.dao.model.UserAccount;
 import pb.server.dao.service.UserAccountDao;
 
@@ -57,6 +58,12 @@ public class UserAccountServiceImpl implements UserAccountService {
     public List<String> getUids(List<Long> ids) {
         if (ids.size() == 0) return new ArrayList<>(0);
         return userAccountDao.getUids(ids);
+    }
+
+    @Override
+    public List<Friend> search(String key) {
+        if (key == null) return null;
+        return userAccountDao.search("%" + key + "%");
     }
 
     public void setUserAccountDao(UserAccountDao userAccountDao) {

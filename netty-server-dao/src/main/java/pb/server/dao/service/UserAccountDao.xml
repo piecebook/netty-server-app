@@ -3,6 +3,11 @@
 <mapper namespace="pb.server.dao.service.UserAccountDao">
 
     <resultMap id="uids" type="string"/>
+    <resultMap id="friend" type="pb.server.dao.model.Friend">
+        <result column="id" property="id"/>
+        <result column="sid" property="sid"/>
+        <result column="uid" property="uid"/>
+    </resultMap>
 
     <insert id="addUserAccount" parameterType="_user_account">
         INSERT INTO user_account(uid, password, salt, sex, email) VALUE(#{uid}, #{password}, #{salt}, #{sex}, #{email});
@@ -33,6 +38,10 @@
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </select>
+
+    <select id="search" parameterType="string" resultMap="friend">
+        SELECT id, uid,0 AS sid FROM user_account WHERE uid LIKE #{key}
     </select>
 
 </mapper>

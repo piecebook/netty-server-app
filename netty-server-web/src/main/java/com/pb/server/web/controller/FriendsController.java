@@ -11,6 +11,7 @@ import pb.server.dao.model.Friend;
 import pb.server.dao.model.UserAccount;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +39,15 @@ public class FriendsController {
             writer.flush();
             writer.close();
         } else return;
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public void searchFriend(@RequestParam("search_key") String search_key, PrintWriter writer) {
+        List<Friend> friends = userAccountService.search(search_key);
+        if (friends == null) friends = new ArrayList<>(0);
+        writer.print(JSON.toJSONString(friends));
+        writer.flush();
+        writer.close();
     }
 
     public void setFriendsService(FriendsService friendsService) {
