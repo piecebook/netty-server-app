@@ -40,7 +40,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public String login(String uid, String pwd) {
         UserAccount user = userAccountDao.getUserAccount(uid);
-        if (user == null) return "user not found";
+        if (user == null) return "unfound";
         String salt = user.getSalt();
         String hash = PWD_Util.getHash(pwd + salt);
         if (hash.equals(user.getPassword()))

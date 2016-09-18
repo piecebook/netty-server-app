@@ -18,9 +18,8 @@ public class LoginHandler implements PBRequestHandler {
     private UserAccountService accountService;
 
     /**
-     *
      * @param session 用户连接session
-     * @param msg 登录消息包
+     * @param msg     登录消息包
      * @return 是否登录成功回复
      */
     @Override
@@ -35,15 +34,15 @@ public class LoginHandler implements PBRequestHandler {
         //需要操作数据库
         String result = accountService.login(msg.get("s_uid"), msg.get("pwd"));
 
-        if ("fail".equals(result)) {
+        if ("fail".equals(result) || "unfound".equals(result)) {
             //验证失败
-            reply.setParam("st", result);//result包含失败原因，1、用户名不存在 2、密码错误
+            reply.setParam("st", result);//result包含失败原因，1、用户名不存在 "user not found" 2、密码错误 "fail"
         } else {
             //用户名、密码 验证成功
             logger.info(msg.get("s_uid") + " login on " + session.getSession().remoteAddress());
 
             reply.setParam("st", PBCONSTANT.SUCCESS);//成功标志
-            reply.setParam("id",result);//返回用户id
+            reply.setParam("id", result);//返回用户id
 
             /**
              * 根据用户名 从sessionManager取出oldsession
@@ -65,6 +64,7 @@ public class LoginHandler implements PBRequestHandler {
 
     /**
      * 功能：强迫用户下线
+     *
      * @param session 用户连接session
      */
     public void sendForceOffLine(PBSession session) {

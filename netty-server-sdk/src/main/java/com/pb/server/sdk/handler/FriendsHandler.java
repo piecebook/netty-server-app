@@ -28,20 +28,29 @@ public class FriendsHandler implements PBRequestHandler {
             reply.setType(PBCONSTANT.ADD_FRIENDS_MSG_ACK_FLAG);
         } else {
             reply.setType(PBCONSTANT.ADD_FRIENDS_ACK_FLAG);
-            reply.setParam("s_uid", msg.get("s_uid"));
             if (msg.get("msg").equals("sc")) {
+                reply.setTime(System.currentTimeMillis());
                 String sender = msg.get("s_uid");
                 String receiver = msg.get("r_uid");
                 long sid = friendsService.add(sender, receiver);
                 if (sid == -1) {
-                    reply.setParam("st", "fl");
+                    reply.setParam("msg", "fl");
                     msg.setParam("msg", "fl");
                 } else {
                     msg.setParam("msg", "" + sid);
                     reply.setParam("msg", "" + sid);
                 }
-            } else msg.setParam("msg", "fl");
+                reply.setParam("s_uid", "Sys" + msg.get("r_uid"));
+                reply.setParam("r_uid", msg.get("s_uid"));
+                ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(reply);
+                reply = null;
+            } else {
+                msg.setParam("msg", "fl");
+                reply.setMsg_id(msg.getMsg_id());
+                reply.setType(PBCONSTANT.MESSAGE_REPLY_FLAG);
+            }
             ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(msg);
+            return reply;
         }
         return reply;
     }
