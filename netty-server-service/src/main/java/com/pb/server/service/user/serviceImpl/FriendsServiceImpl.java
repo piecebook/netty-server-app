@@ -1,7 +1,8 @@
 package com.pb.server.service.user.serviceImpl;
 
 import com.pb.server.service.user.FriendsService;
-import com.sun.istack.internal.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pb.server.dao.model.Friend;
 import pb.server.dao.model.FriendShip;
 import pb.server.dao.model.UserAccount;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by piecebook on 2016/9/12.
  */
 public class FriendsServiceImpl implements FriendsService {
-    private static Logger log = Logger.getLogger(FriendsServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(FriendsServiceImpl.class);
     private FriendsDao friendsDao;
     private UserAccountDao userAccountDao;
 

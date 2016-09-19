@@ -52,10 +52,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getOfflineMsg(String uid) {
+    public List<MessageModel> getOfflineMsg(String uid) {
         List<MessageModel> models = messageDao.getOfflineMsg(uid);
-        List<Message> messages = MessageUtil.toMultMessage(models);
-        return messages;
+        return models;
     }
 
     @Override

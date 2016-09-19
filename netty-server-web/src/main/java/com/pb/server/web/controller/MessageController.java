@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pb.server.dao.model.Message;
+import pb.server.dao.model.MessageModel;
 import pb.server.dao.model.UserAccount;
 
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ public class MessageController {
         UserAccount user = userAccountService.getByid(id);
         if (null == user) return;
         if (user.getUid().equals(uid)) {
-            List<Message> messages = messageService.getOfflineMsg(uid);
+            List<MessageModel> messages = messageService.getOfflineMsg(uid);
             writer.print(JSON.toJSONString(messages));
             writer.flush();
             writer.close();
@@ -40,7 +40,7 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/ack_offline_msg", method = RequestMethod.POST)
-    public void ackOfflineMsg(@Param("user_id") String user_id, @Param("uid") String uid, @Param("ids_str") String ids_str,PrintWriter writer) {
+    public void ackOfflineMsg(@Param("user_id") String user_id, @Param("uid") String uid, @Param("ids_str") String ids_str, PrintWriter writer) {
         Long id = Long.parseLong(user_id);
         UserAccount user = userAccountService.getByid(id);
         if (null == user) return;

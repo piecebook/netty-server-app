@@ -3,7 +3,7 @@
 
     <context-param>
         <param-name>spring.profiles.active</param-name>
-        <param-value>dev_note</param-value>
+        <param-value>deploy</param-value>
     </context-param>
     <!-- springMVC前端控制器 -->
     <servlet>
