@@ -18,4 +18,8 @@ public interface MessageService {
     public List<Message> getMessageBySessionId(long session_id, String time_begin, String time_end);
 
     public void deleteMessage(String time_end);
+
+    public List<Message> getOfflineMsg(String uid);
+
+    public void deleteOfflineMsg(List<Long> list);
 }

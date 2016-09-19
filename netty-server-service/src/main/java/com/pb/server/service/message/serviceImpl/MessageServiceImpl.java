@@ -27,7 +27,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void addMessageList(List<Message> list) {
-        logger.info("mult insert: "+list.toString());
+        logger.info("mult insert: " + list.toString());
         List<MessageModel> models = MessageUtil.toMultMessageModel(list);
         messageDao.addMessageList(models);
     }
@@ -49,6 +49,20 @@ public class MessageServiceImpl implements MessageService {
     public void deleteMessage(String time_end) {
         logger.info("delete message before " + time_end);
         messageDao.deleteMessage(time_end);
+    }
+
+    @Override
+    public List<Message> getOfflineMsg(String uid) {
+        List<MessageModel> models = messageDao.getOfflineMsg(uid);
+        List<Message> messages = MessageUtil.toMultMessage(models);
+        return messages;
+    }
+
+    @Override
+    public void deleteOfflineMsg(List<Long> list) {
+        if (list == null) return;
+        if (list.size() == 0) return;
+        messageDao.deleteOfflineMsg(list);
     }
 
     public void setMessageDao(MessageDao messageDao) {

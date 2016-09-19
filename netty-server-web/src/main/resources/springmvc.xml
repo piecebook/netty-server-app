@@ -37,4 +37,12 @@
             <ref bean="userAccountService"/>
         </property>
     </bean>
+    <bean id="messageController" class="com.pb.server.web.controller.MessageController">
+        <property name="messageService">
+            <ref bean="messageService"/>
+        </property>
+        <property name="userAccountService">
+            <ref bean="userAccountService"/>
+        </property>
+    </bean>
 </beans>

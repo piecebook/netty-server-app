@@ -18,4 +18,8 @@ public interface MessageDao {
     public List<MessageModel> getMessageBySessionId(@Param("session_id") long session_id, @Param("time_begin") String time_begin, @Param("time_end") String time_end);
 
     public void deleteMessage(String time_end);
+
+    public List<MessageModel> getOfflineMsg(@Param("uid") String uid);
+
+    public void deleteOfflineMsg(List<Long> list);
 }

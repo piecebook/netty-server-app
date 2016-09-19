@@ -20,7 +20,8 @@
     <insert id="addMessageList" parameterType="java.util.List">
         insert into message(type, sender, receiver, content, create_time,session_id) values
         <foreach collection="list" index="index" item="message" separator=",">
-            (#{message.type}, #{message.sender},#{message.receiver}, #{message.content}, #{message.create_time}, #{message.session_id})
+            (#{message.type}, #{message.sender},#{message.receiver}, #{message.content}, #{message.create_time},
+            #{message.session_id})
         </foreach>
     </insert>
 
@@ -39,6 +40,18 @@
     </select>
     <delete id="deleteMessage" parameterType="String">
         delete * from message where create_time &lt; #{time_end}
+    </delete>
+
+    <select id="getOfflineMsg" parameterType="String" resultMap="message">
+        SELECT * FROM message_offline WHERE receiver = #{uid}
+    </select>
+
+    <delete id="deleteOfflineMsg" parameterType="list">
+        DELETE FROM message_offline WHERE id IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </delete>
 
 </mapper>
