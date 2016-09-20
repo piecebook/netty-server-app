@@ -16,6 +16,8 @@
     <!-- if you use annotation you must configure following setting -->
     <mvc:annotation-driven/>
 
+    <context:annotation-config/>
+
     <!-- configure the InternalResourceViewResolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           id="internalResourceViewResolver">
@@ -23,6 +25,12 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <!-- 后缀 -->
         <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="idCheck" class="com.pb.server.web.util.IDCheck">
+        <property name="userAccountService">
+            <ref bean="userAccountService"/>
+        </property>
     </bean>
     <bean id="userController" class="com.pb.server.web.controller.UserController">
         <property name="userService">
@@ -36,13 +44,14 @@
         <property name="userAccountService">
             <ref bean="userAccountService"/>
         </property>
+        <property name="idCheck" ref="idCheck"/>
     </bean>
     <bean id="messageController" class="com.pb.server.web.controller.MessageController">
         <property name="messageService">
             <ref bean="messageService"/>
         </property>
-        <property name="userAccountService">
-            <ref bean="userAccountService"/>
-        </property>
+        <property name="idCheck" ref="idCheck"/>
     </bean>
+
+
 </beans>

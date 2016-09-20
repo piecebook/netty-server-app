@@ -1,16 +1,18 @@
 package com.pb.server.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.pb.server.service.user.FriendsService;
 import com.pb.server.service.user.UserAccountService;
+import com.pb.server.web.model.Response;
+import com.pb.server.web.util.IDCheck;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pb.server.dao.model.Friend;
-import pb.server.dao.model.UserAccount;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,37 +23,48 @@ import java.util.List;
 
 @RequestMapping(value = "/friends")
 public class FriendsController {
+    private static Logger log = LoggerFactory.getLogger(FriendsController.class);
     @Autowired
     private FriendsService friendsService;
+
+    @Autowired
+    private IDCheck idCheck;
 
     @Autowired
     private UserAccountService userAccountService;
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    public void getFriends(@RequestParam("user_id") String user_id, @RequestParam("uid") String uid, PrintWriter writer) {
-        Long id = Long.parseLong(user_id);
-        UserAccount user = userAccountService.getByid(id);
-        if (user == null) return;
-        if (uid.equals(user.getUid())) {
+    @ResponseBody
+    public Response getFriends(@RequestParam("user_id") String user_id, @RequestParam("uid") String uid) {
+        Response response = idCheck.idCheck(uid, user_id, "/friends/get");
 
+        if (response.getError_code() == Response.SUCCESS) {
+            Long id = Long.parseLong(user_id);
             List<Friend> friends = friendsService.getFriends(id);
-            writer.print(JSON.toJSONString(friends));
-            writer.flush();
-            writer.close();
-        } else return;
+            response.setError_code(Response.SUCCESS);
+            response.setReason("success");
+            response.setData(friends);
+        }
+
+        return response;
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public void searchFriend(@RequestParam("search_key") String search_key, PrintWriter writer) {
+    @ResponseBody
+    public Response searchFriend(@RequestParam("search_key") String search_key) {
+
         List<Friend> friends = userAccountService.search(search_key);
         if (friends == null) friends = new ArrayList<>(0);
-        writer.print(JSON.toJSONString(friends));
-        writer.flush();
-        writer.close();
+        Response response = new Response();
+        return response.success(friends);
     }
 
     public void setFriendsService(FriendsService friendsService) {
         this.friendsService = friendsService;
+    }
+
+    public void setIdCheck(IDCheck idCheck) {
+        this.idCheck = idCheck;
     }
 
     public void setUserAccountService(UserAccountService userAccountService) {

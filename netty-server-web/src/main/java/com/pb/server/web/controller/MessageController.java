@@ -1,16 +1,17 @@
 package com.pb.server.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.pb.server.service.message.MessageService;
-import com.pb.server.service.user.UserAccountService;
+import com.pb.server.web.model.Response;
+import com.pb.server.web.util.IDCheck;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pb.server.dao.model.MessageModel;
-import pb.server.dao.model.UserAccount;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,31 +21,35 @@ import java.util.List;
 
 @RequestMapping(value = "/msg")
 public class MessageController {
+    private static Logger log = LoggerFactory.getLogger(MessageController.class);
+
     @Autowired
     private MessageService messageService;
 
     @Autowired
-    private UserAccountService userAccountService;
+    private IDCheck idCheck;
 
     @RequestMapping(value = "/get_offline_msg", method = RequestMethod.POST)
-    public void getOfflineMsg(@Param("user_id") String user_id, @Param("uid") String uid, PrintWriter writer) {
-        Long id = Long.parseLong(user_id);
-        UserAccount user = userAccountService.getByid(id);
-        if (null == user) return;
-        if (user.getUid().equals(uid)) {
+    @ResponseBody
+    public Response getOfflineMsg(@Param("user_id") String user_id, @Param("uid") String uid) {
+
+        Response response = idCheck.idCheck(uid, user_id, "/msg/get_offline_msg");
+
+        if (response.getError_code() == Response.SUCCESS) {
             List<MessageModel> messages = messageService.getOfflineMsg(uid);
-            writer.print(JSON.toJSONString(messages));
-            writer.flush();
-            writer.close();
-        } else return;
+            response.setData(messages);
+        }
+
+        return response;
     }
 
     @RequestMapping(value = "/ack_offline_msg", method = RequestMethod.POST)
-    public void ackOfflineMsg(@Param("user_id") String user_id, @Param("uid") String uid, @Param("ids_str") String ids_str, PrintWriter writer) {
-        Long id = Long.parseLong(user_id);
-        UserAccount user = userAccountService.getByid(id);
-        if (null == user) return;
-        if (user.getUid().equals(uid)) {
+    @ResponseBody
+    public Response ackOfflineMsg(@Param("user_id") String user_id, @Param("uid") String uid, @Param("ids_str") String ids_str) {
+        Response response = idCheck.idCheck(uid, user_id, "/msg/ack_offline_msg");
+
+
+        if (response.getError_code() == Response.SUCCESS) {
             String[] ids = ids_str.split(",");
             List<Long> id_list = new ArrayList<>(ids.length);
             if (ids.length > 0) {
@@ -52,11 +57,10 @@ public class MessageController {
                     id_list.add(Long.parseLong(msg));
                 }
                 messageService.deleteOfflineMsg(id_list);
-                writer.print(JSON.toJSONString(1));
-                writer.flush();
-                writer.close();
             }
-        } else return;
+        }
+
+        return response;
     }
 
 
@@ -64,7 +68,7 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    public void setUserAccountService(UserAccountService userAccountService) {
-        this.userAccountService = userAccountService;
+    public void setIdCheck(IDCheck idCheck) {
+        this.idCheck = idCheck;
     }
 }
