@@ -5,6 +5,7 @@ import com.pb.server.service.util.PWD_Util;
 import com.pb.server.web.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pb.server.dao.model.UserAccount;
@@ -23,18 +24,18 @@ public class UserController {
 
     @RequestMapping(value = "/register")
     public ModelAndView register(Account user) {
-        Map<String,Object> data = new HashMap<String,Object>();
+        Map<String, Object> data = new HashMap<String, Object>();
         String result = null;
-        if (user.getSex() == null || user.getEmail() == null || user.getPwd() == null || user.getUid() == null) {
+        if (!StringUtils.hasText(user.getUid()) || !StringUtils.hasText(user.getPwd()) || !StringUtils.hasText(user.getEmail()) || null == user.getSex()) {
             result = "Wrong Info";
-            data.put("result",result);
-            return new ModelAndView("register_result",data);
+            data.put("result", result);
+            return new ModelAndView("register_result", data);
         }
         UserAccount isExist = userService.getUserAccount(user.getUid());
         if (isExist != null) {
             result = "uid exist";
-            data.put("result",result);
-            return new ModelAndView("register_result",data);
+            data.put("result", result);
+            return new ModelAndView("register_result", data);
         }
 
         isExist = new UserAccount();
@@ -51,8 +52,8 @@ public class UserController {
         userService.addUserAccount(isExist);
 
         result = "success";
-        data.put("result",result);
-        return new ModelAndView("register_result",data);
+        data.put("result", result);
+        return new ModelAndView("register_result", data);
     }
 
     public void setUserService(UserAccountService userService) {
