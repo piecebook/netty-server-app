@@ -13,20 +13,20 @@
     </resultMap>
 
     <insert id="addMessage" parameterType="_message">
-        insert into message(type, sender, receiver, content, create_time,session_id) value (#{type}, #{sender},
+        insert into message(msg_id, type, sender, receiver, content, create_time,session_id) value (#{msg_id}, #{type}, #{sender},
         #{receiver}, #{content}, #{create_time}, #{session_id})
     </insert>
 
     <insert id="addMessageList" parameterType="java.util.List">
-        insert into message(type, sender, receiver, content, create_time,session_id) values
+        insert into message(msg_id, type, sender, receiver, content, create_time,session_id) values
         <foreach collection="list" index="index" item="message" separator=",">
-            (#{message.type}, #{message.sender},#{message.receiver}, #{message.content}, #{message.create_time},
+            (#{message.msg_id}, #{message.type}, #{message.sender},#{message.receiver}, #{message.content}, #{message.create_time},
             #{message.session_id})
         </foreach>
     </insert>
 
     <insert id="addOfflineMessage" parameterType="_message">
-        insert into message_offline(type, sender, receiver, content, create_time,session_id) value (#{type}, #{sender},
+        insert into message_offline(msg_id, type, sender, receiver, content, create_time,session_id) value (#{msg_id}, #{type}, #{sender},
         #{receiver}, #{content}, #{create_time}, #{session_id})
     </insert>
     <select id="getMessageBySessionId" resultMap="message">

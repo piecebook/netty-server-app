@@ -8,15 +8,14 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
  * 消息编码器
- *
+ * <p>
  * 网络传输的消息都会在这里进行编码
  */
 public class MessageEncoder extends MessageToByteEncoder<Message> {
 
     /**
-     *
-     * @param ctx 连接context，,里面含有session
-     * @param msg 发送的消息
+     * @param ctx    连接context，,里面含有session
+     * @param msg    发送的消息
      * @param outbuf 输出缓存区
      * @throws Exception
      */
@@ -35,10 +34,17 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
         outbuf.writeByte(msg.getEnzip());
         outbuf.writeByte(msg.getType());
         //消息id 分成两个字节编码
-        byte low = (byte) msg.getMsg_id();//id低8位
-        byte high = (byte) (msg.getMsg_id() >> 8);//id高8位
-        outbuf.writeByte(high);
-        outbuf.writeByte(low);
+        //byte low = (byte) msg.getMsg_id();//id低8位
+        //byte high = (byte) (msg.getMsg_id() >> 8);//id高8位
+        long id = msg.getMsg_id();
+        byte[] msg_id = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            msg_id[i] = (byte) id;
+            id = id >> 8;
+        }
+        outbuf.writeBytes(msg_id);
+        //outbuf.writeByte(high);
+        //outbuf.writeByte(low);
         outbuf.writeBytes(body);
 
         //这里的代码可以重构一下，将 消息头，消息体 都用PBProtocol处理

@@ -21,7 +21,7 @@ public class nettyMain {
     private int maxFrameLength = 1024;
     private int lengthFieldOffset = 0;
     private int lengthFieldLength = 4;
-    private int lengthAdjustment = 5;
+    private int lengthAdjustment = 11;//5
     private int initialBytesToStrip = 0;
 
     public static void main(String[] args) {

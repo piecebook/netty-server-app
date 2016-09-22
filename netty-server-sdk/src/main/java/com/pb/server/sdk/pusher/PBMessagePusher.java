@@ -34,7 +34,7 @@ public class PBMessagePusher implements MessagePusher {
             return "fl";
         }else {
             //用户在线
-            String msg_key = msg.get("s_uid") + msg.getMsg_id();
+            String msg_key = msg.get("s_uid")+ "-" + msg.getMsg_id();
             //msg.setTime(System.currentTimeMillis());
             //把时间放进消息体传输
             msg.setParam("tm", msg.getTime().toString());

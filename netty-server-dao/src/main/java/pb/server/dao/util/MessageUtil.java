@@ -19,7 +19,7 @@ public class MessageUtil {
         msg.setParam("r_uid", model.getReceiver());
         msg.setParam("msg", model.getContent());
         msg.setParam("sid", model.getSession_id().toString());
-        msg.setMsg_id(Integer.valueOf(model.getId().toString()));
+        msg.setMsg_id(msg.getMsg_id());
         return msg;
     }
 
@@ -33,13 +33,14 @@ public class MessageUtil {
         model.setContent(message.get("msg"));
         model.setSession_id(Long.valueOf(message.get("sid")));
         model.setType(message.getType());
+        model.setMsg_id(message.getMsg_id());
         return model;
     }
 
     public static List<Message> toMultMessage(List<MessageModel> models) {
         List<Message> list = new ArrayList<>();
         for (MessageModel model : models) {
-            model.setTime_long();
+            /*model.setTime_long();
             Message msg = new Message();
             msg.setType((byte) model.getType());
             msg.setTime(model.getTime_long());
@@ -47,8 +48,8 @@ public class MessageUtil {
             msg.setParam("r_uid", model.getReceiver());
             msg.setParam("msg", model.getContent());
             msg.setParam("sid", model.getSession_id().toString());
-            msg.setMsg_id(Integer.valueOf(model.getId().toString()));
-            list.add(msg);
+            msg.setMsg_id(model.getMsg_id());*/
+            list.add(toMessage(model));
         }
         return list;
     }
@@ -56,7 +57,7 @@ public class MessageUtil {
     public static List<MessageModel> toMultMessageModel(List<Message> messages) {
         List<MessageModel> list = new ArrayList<>();
         for (Message message : messages) {
-            MessageModel model = new MessageModel();
+            /*MessageModel model = new MessageModel();
             model.setReceiver(message.get("r_uid"));
             model.setSender(message.get("s_uid"));
             if (message.getTime() != null)
@@ -65,7 +66,8 @@ public class MessageUtil {
             model.setContent(message.get("msg"));
             model.setSession_id(Long.valueOf(message.get("sid")));
             model.setType(message.getType());
-            list.add(model);
+            model.setMsg_id(message.getMsg_id());*/
+            list.add(toMessageModel(message));
         }
         return list;
     }

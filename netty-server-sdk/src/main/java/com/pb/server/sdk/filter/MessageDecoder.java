@@ -35,7 +35,8 @@ public class MessageDecoder extends ByteToMessageDecoder {
 		byte encode = inbuf.readByte();
 		byte enzip = inbuf.readByte();
 		byte type = inbuf.readByte();
-		short msg_id = inbuf.readShort();//msg_id长度两个字节
+		long msg_id = inbuf.readLong();//msg_id长度8个字节
+		System.out.println(msg_id);
 		Message msg = new Message();
 		msg.setEncode(encode);
 		msg.setEnzip(enzip);

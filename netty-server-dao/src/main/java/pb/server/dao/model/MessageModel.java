@@ -14,6 +14,7 @@ public class MessageModel {
     private String create_time;
     private Long time_long;
     private Long session_id;
+    private Long msg_id;
 
     public MessageModel() {
     }
@@ -84,6 +85,14 @@ public class MessageModel {
         this.create_time = new Timestamp(time_long).toString();
     }
 
+    public Long getMsg_id() {
+        return msg_id;
+    }
+
+    public void setMsg_id(Long msg_id) {
+        this.msg_id = msg_id;
+    }
+
     public Long getSession_id() {
         return session_id;
     }
@@ -99,13 +108,15 @@ public class MessageModel {
     @Override
     public String toString() {
         return "MessageModel{" +
-                "sender='" + sender + '\'' +
+                "id=" + id +
+                ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +
                 ", content='" + content + '\'' +
                 ", type=" + type +
                 ", create_time='" + create_time + '\'' +
                 ", time_long=" + time_long +
                 ", session_id=" + session_id +
+                ", msg_id=" + msg_id +
                 '}';
     }
 }
