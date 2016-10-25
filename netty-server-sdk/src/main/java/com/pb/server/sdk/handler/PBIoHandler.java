@@ -2,12 +2,13 @@ package com.pb.server.sdk.handler;
 
 
 import com.pb.server.sdk.constant.PBCONSTANT;
-import pb.server.dao.model.Message;
 import com.pb.server.sdk.session.PBSession;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pb.server.dao.model.Message;
 
 import java.util.Map;
 
@@ -26,6 +27,20 @@ public class PBIoHandler extends SimpleChannelInboundHandler<Message> {
 
     //用户uid
     private String uid = null;
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent idle = (IdleStateEvent) evt;
+            switch (idle.state()) {
+                case READER_IDLE:
+                    this.channelUnregistered(ctx);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Message msg)

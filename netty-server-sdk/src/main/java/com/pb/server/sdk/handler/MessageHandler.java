@@ -38,6 +38,7 @@ public class MessageHandler implements PBRequestHandler {
         String result = ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(msg);//用户在线：result=sc； 用户不在线：result=fl
 
         reply.setParam("st", result);
+        reply.setParam("id", msg.getMsg_id() + "");
         reply.setParam("s_uid", PBCONSTANT.SYSTEM);
         return reply;
     }

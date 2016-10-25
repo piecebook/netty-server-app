@@ -9,8 +9,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 public class nettyMain {
 
@@ -23,6 +26,9 @@ public class nettyMain {
     private int lengthFieldLength = 4;
     private int lengthAdjustment = 11;//5
     private int initialBytesToStrip = 0;
+    private int READ_IDLE_TIME_OUT = 5;
+    private int WRITE_IDLE_TIME_OUT = 5;
+    private int READ_WRITE_IDLE_TIME_OUT = 4;
 
     public static void main(String[] args) {
         ContexHolder.init();
@@ -50,6 +56,7 @@ public class nettyMain {
                     channel.pipeline().addLast(new LengthFieldBasedFrameDecoder(maxFrameLength, lengthFieldOffset, lengthFieldLength, lengthAdjustment, initialBytesToStrip));
                     channel.pipeline().addLast(new MessageDecoder());
                     //channel.pipeline().addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)));
+                    channel.pipeline().addLast("ping",new IdleStateHandler(READ_IDLE_TIME_OUT,WRITE_IDLE_TIME_OUT,READ_WRITE_IDLE_TIME_OUT, TimeUnit.MINUTES));
                     channel.pipeline().addLast((ChannelHandler) ContexHolder.getBean("pbIOHandler"));
                 }
 
