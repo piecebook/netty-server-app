@@ -63,7 +63,10 @@ public class PBIoHandler extends SimpleChannelInboundHandler<Message> {
                     break;
                 case PBCONSTANT.ADD_FRIENDS_ACK_FLAG:
                 case PBCONSTANT.ADD_FRIENDS_FLAG:
-                    reply = handlers.get(PBCONSTANT.FRIENDS).process(pbSession, msg);
+                    reply = handlers.get(PBCONSTANT.ADDFRIENDS).process(pbSession, msg);
+                    break;
+                case PBCONSTANT.DEL_FRIEND_FLAG:
+                    reply = handlers.get(PBCONSTANT.DELFRIENDS).process(pbSession,msg);
                     break;
                 default:
             }
