@@ -1,11 +1,13 @@
 package pb.server.dao.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Created by DW on 2016/11/25.
+ * Created by piecebook on 2016/11/25.
  */
-public class BaseMessage {
+public class BaseMessage implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected Long id;
     protected int type;
     protected Long msg_id;
