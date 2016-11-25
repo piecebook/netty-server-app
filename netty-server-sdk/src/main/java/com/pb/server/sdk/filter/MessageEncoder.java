@@ -1,56 +1,51 @@
 package com.pb.server.sdk.filter;
 
-import pb.server.dao.model.Message;
-import com.pb.server.sdk.util.PBProtocol;
-import io.netty.buffer.ByteBuf;
+import com.pb.server.sdk.constant.PBCONSTANT;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToByteEncoder;
+import io.netty.handler.codec.MessageToMessageEncoder;
+import pb.server.dao.model.BaseMessage;
+import pb.server.dao.model.Message;
+
+import java.util.List;
 
 /**
  * 消息编码器
  * <p>
  * 网络传输的消息都会在这里进行编码
  */
-public class MessageEncoder extends MessageToByteEncoder<Message> {
+public class MessageEncoder extends MessageToMessageEncoder<BaseMessage> {
+    public MessageEncoder() {
+    }
 
-    /**
-     * @param ctx    连接context，,里面含有session
-     * @param msg    发送的消息
-     * @param outbuf 输出缓存区
-     * @throws Exception
-     */
-    @Override
-    protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf outbuf)
-            throws Exception {
-        //把时间放进消息体传输
-        //msg.getContent().put("tm", msg.getTime().toString());
-        //PBProtocol协议 编码消息：消息体
-        byte[] body = PBProtocol.Encode(msg.getEncode(), msg.getEnzip(), msg.getContent());
-        int body_length = body.length;
+    protected void encode(ChannelHandlerContext ctx, BaseMessage msg, List<Object> out) throws Exception {
+        if (msg instanceof BaseMessage) {
+            out.add(Unpooled.wrappedBuffer(toByteArray(msg)));
+        } else {
+            throw new Exception("Not suport type");
 
-        //消息头
-        outbuf.writeInt(body_length);
-        outbuf.writeByte(msg.getEncode());
-        outbuf.writeByte(msg.getEnzip());
-        outbuf.writeByte(msg.getType());
-        //消息id 分成两个字节编码
-        //byte low = (byte) msg.getMsg_id();//id低8位
-        //byte high = (byte) (msg.getMsg_id() >> 8);//id高8位
-        long id = msg.getMsg_id();
-        byte[] msg_id = new byte[8];
-        for (int i = 0; i < 8; i++) {
-            msg_id[i] = (byte) id;
-            id = id >> 8;
         }
-        outbuf.writeBytes(msg_id);
-        //outbuf.writeByte(high);
-        //outbuf.writeByte(low);
-        outbuf.writeBytes(body);
+    }
 
-        //这里的代码可以重构一下，将 消息头，消息体 都用PBProtocol处理
-
-        //System.out.println(outbuf.readableBytes());
-        ctx.flush();
+    private byte[] toByteArray(BaseMessage bmsg) {
+        MessageProtos.MessageProto proto = null;
+        switch (bmsg.getType()) {
+            case PBCONSTANT.FILE_FLAG:
+                break;
+            default:
+                Message msg = (Message) bmsg;
+                proto = MessageProtos.MessageProto
+                        .newBuilder()
+                        .setType(msg.getType())
+                        .setSUid(msg.getSender())
+                        .setRUid(msg.getReceiver())
+                        .setMsgId(msg.getMsg_id())
+                        .setMsg(msg.getContent())
+                        .setSessionId(msg.getSession_id())
+                        .setTime(msg.getTime_long())
+                        .build();
+        }
+        return proto.toByteArray();
     }
 
 }

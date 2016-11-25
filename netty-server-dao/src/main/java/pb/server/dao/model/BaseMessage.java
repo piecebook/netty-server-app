@@ -3,29 +3,32 @@ package pb.server.dao.model;
 import java.sql.Timestamp;
 
 /**
- * Created by piecebook on 2016/8/18.
+ * Created by DW on 2016/11/25.
  */
-public class MessageModel {
-    private Long id;
-    private String sender;
-    private String receiver;
-    private String content;
-    private int type;
-    private String create_time;
-    private Long time_long;
-    private Long session_id;
-    private Long msg_id;
+public class BaseMessage {
+    protected Long id;
+    protected int type;
+    protected Long msg_id;
+    protected String sender;
+    protected String receiver;
+    protected String create_time;
+    protected Long time_long;
 
-    public MessageModel() {
+    public BaseMessage() {
+
     }
 
-    public MessageModel(String sender, String receiver, String content) {
+    public BaseMessage(String sender, String receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.content = content;
-        this.type = 1;
-        this.time_long = System.currentTimeMillis();
-        create_time = new Timestamp(time_long).toString();
+    }
+
+    public BaseMessage(int type, Long msg_id, String sender, String receiver, Long time_long) {
+        this.type = type;
+        this.msg_id = msg_id;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.time_long = time_long;
     }
 
     public Long getId() {
@@ -50,14 +53,6 @@ public class MessageModel {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public int getType() {
@@ -85,6 +80,10 @@ public class MessageModel {
         this.create_time = new Timestamp(time_long).toString();
     }
 
+    public void setTime_long() {
+        this.time_long = Timestamp.valueOf(create_time).getTime();
+    }
+
     public Long getMsg_id() {
         return msg_id;
     }
@@ -93,30 +92,16 @@ public class MessageModel {
         this.msg_id = msg_id;
     }
 
-    public Long getSession_id() {
-        return session_id;
-    }
-
-    public void setSession_id(Long session_id) {
-        this.session_id = session_id;
-    }
-
-    public void setTime_long() {
-        this.time_long = Timestamp.valueOf(create_time).getTime();
-    }
-
     @Override
     public String toString() {
-        return "MessageModel{" +
+        return "BaseMessage{" +
                 "id=" + id +
+                ", type=" + type +
+                ", msg_id=" + msg_id +
                 ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +
-                ", content='" + content + '\'' +
-                ", type=" + type +
                 ", create_time='" + create_time + '\'' +
                 ", time_long=" + time_long +
-                ", session_id=" + session_id +
-                ", msg_id=" + msg_id +
                 '}';
     }
 }

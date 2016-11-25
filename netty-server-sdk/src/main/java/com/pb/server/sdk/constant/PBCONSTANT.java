@@ -13,6 +13,7 @@ public class PBCONSTANT {
     public static final byte ADD_FRIENDS_FLAG = 7;
     public static final byte ADD_FRIENDS_ACK_FLAG = 71;
     public static final byte ADD_FRIENDS_MSG_ACK_FLAG = 72;
+    public static final byte FILE_FLAG = 8;
 
     public static final byte DEL_FRIEND_FLAG = 8;
 

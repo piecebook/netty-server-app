@@ -35,9 +35,9 @@ public class MessageResendDaemon {
         List<Message> resend_list = new ArrayList<>();
         List<Message> offline_messages = new ArrayList<>();
         for (Message msg : list) {
-            if (msg.getTime() < current_time_45s_before)//45s 之前的消息 视为 接收者离线，持久化到mysql
+            if (msg.getTime_long() < current_time_45s_before)//45s 之前的消息 视为 接收者离线，持久化到mysql
                 offline_messages.add(msg);
-            else if (msg.getTime() < current_time_15s_before)//15s 之前的消息，等待ack超时，重发
+            else if (msg.getTime_long() < current_time_15s_before)//15s 之前的消息，等待ack超时，重发
                 resend_list.add(msg);
         }
 
@@ -49,7 +49,7 @@ public class MessageResendDaemon {
         }
         if (!offline_messages.isEmpty()) {
             for (Message msg : offline_messages) {
-                redisUtil.removeForAHash("message", msg.get("s_uid") + msg.getMsg_id());
+                redisUtil.removeForAHash("message", msg.getSender() + msg.getMsg_id());
                 System.out.println("offline message:" + msg.toString());
                 messageService.addMessage(msg);     //msg持久化
 
@@ -58,11 +58,11 @@ public class MessageResendDaemon {
 
                 //接收者下线
                 SessionManage sessionManager = (SessionManage) ContexHolder.getBean("sessionManager");
-                PBSession session = sessionManager.get(msg.get("r_uid"));
+                PBSession session = sessionManager.get(msg.getReceiver());
                 if (session!=null){
                     session.close();
                 }
-                sessionManager.remove(msg.get("r_uid"));
+                sessionManager.remove(msg.getReceiver());
                 //TODO: 这里需要重构，接收者下线
             }
         }

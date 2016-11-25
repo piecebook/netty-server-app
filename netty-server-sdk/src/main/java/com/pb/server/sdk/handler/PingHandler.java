@@ -24,8 +24,8 @@ public class PingHandler implements PBRequestHandler {
         logger.info("Ping from:" + session.getSession().remoteAddress());
         Message reply = new Message();
         reply.setType(PBCONSTANT.PING_ACK_FLAG);
-        reply.setTime(System.currentTimeMillis());
-        reply.setParam("r_uid", msg.get("s_uid"));
+        reply.setTime_long(System.currentTimeMillis());
+        reply.setReceiver(msg.getSender());
         return reply;
     }
 

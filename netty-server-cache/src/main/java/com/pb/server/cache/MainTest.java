@@ -8,17 +8,16 @@ import pb.server.dao.model.Message;
  */
 public class MainTest {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         RedisUtil redisUtil = null;//(RedisUtil) ContexHolder.getBean("redisUtil");
         Message message = new Message();
-        message.setType((byte)1);
-        message.setMsg_id(222);
-        message.setLength(10);
-        message.setParam("s_uid","lily");
-        message.setParam("r_uid","lisa");
-        redisUtil.setForAHashMap("message",message.get("s_uid")+message.getMsg_id(),message);
+        message.setType((byte) 1);
+        message.setMsg_id(222L);
+        message.setSender("lily");
+        message.setReceiver("lisa");
+        redisUtil.setForAHashMap("message", message.getSender() + message.getMsg_id(), message);
 
-        Message msg = (Message)redisUtil.getForAHashMap("message",message.get("s_uid")+message.getMsg_id());
+        Message msg = (Message) redisUtil.getForAHashMap("message", message.getSender() + message.getMsg_id());
         System.out.println(message.toString());
         System.out.println(msg.toString());
 

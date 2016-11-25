@@ -26,7 +26,7 @@ public class PBMessagePusher implements MessagePusher {
     @Override
     public String push(Message msg) {
         PBSessionManage sessionManager = (PBSessionManage) ContexHolder.getBean("sessionManager");
-        PBSession receiver_session = sessionManager.get(msg.get("r_uid"));//得到接收用户连接的session
+        PBSession receiver_session = sessionManager.get(msg.getReceiver());//得到接收用户连接的session
 
         if(receiver_session == null){
             //用户不在线
@@ -34,10 +34,8 @@ public class PBMessagePusher implements MessagePusher {
             return "fl";
         }else {
             //用户在线
-            String msg_key = msg.get("s_uid")+ "-" + msg.getMsg_id();
+            String msg_key = msg.getSender()+ "-" + msg.getMsg_id();
             //msg.setTime(System.currentTimeMillis());
-            //把时间放进消息体传输
-            msg.setParam("tm", msg.getTime().toString());
             //MessageHolder.send_messages.put(msg_key,msg);
             RedisUtil redisUtil = (RedisUtil) ContexHolder.getBean("redisUtil");
             redisUtil.list_right_push("message_mysql_list", msg);

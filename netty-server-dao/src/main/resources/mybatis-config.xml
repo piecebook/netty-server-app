@@ -6,7 +6,7 @@
         <setting name="logImpl" value="LOG4J2"/>
     </settings>
     <typeAliases>
-        <typeAlias type="pb.server.dao.model.MessageModel" alias="_message"/>
+        <typeAlias type="pb.server.dao.model.Message" alias="_message"/>
         <typeAlias type="pb.server.dao.model.UserAccount" alias="_user_account"/>
     </typeAliases>
 </configuration>

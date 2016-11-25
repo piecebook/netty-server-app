@@ -1,7 +1,6 @@
 package com.pb.server.service.message;
 
 import pb.server.dao.model.Message;
-import pb.server.dao.model.MessageModel;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public interface MessageService {
 
     public void deleteMessage(String time_end);
 
-    public List<MessageModel> getOfflineMsg(String uid);
+    public List<Message> getOfflineMsg(String uid);
 
     public void deleteOfflineMsg(List<Long> list);
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pb.server.dao.service.MessageDao">
 
-    <resultMap id="message" type="pb.server.dao.model.MessageModel">
+    <resultMap id="message" type="pb.server.dao.model.Message">
         <id column="id" property="id"/>
         <result column="type" property="type"/>
         <result column="sender" property="sender"/>

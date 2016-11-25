@@ -21,8 +21,7 @@ public class AddFriendsHandler implements PBRequestHandler {
     public Message process(PBSession session, Message msg) {
         Message reply = new Message();
         reply.setMsg_id(msg.getMsg_id());
-        reply.setParam("st", "sc");
-        reply.setParam("s_uid", PBCONSTANT.SYSTEM);
+        reply.setReceiver(PBCONSTANT.SYSTEM);
         if (msg.getType() == PBCONSTANT.ADD_FRIENDS_FLAG) {
             //用户发起添加好友请求
             ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(msg);
@@ -30,27 +29,27 @@ public class AddFriendsHandler implements PBRequestHandler {
         } else {
             //添加好友请求应答
             reply.setType(PBCONSTANT.ADD_FRIENDS_ACK_FLAG);
-            if (msg.get("msg").equals("sc")) {
+            if (msg.getContent().equals("sc")) {
                 //同意添加好友
-                reply.setTime(System.currentTimeMillis());
-                String sender = msg.get("s_uid");
-                String receiver = msg.get("r_uid");
+                reply.setTime_long(System.currentTimeMillis());
+                String sender = msg.getSender();
+                String receiver = msg.getReceiver();
                 long sid = friendsService.add(sender, receiver);
                 if (sid == -1) {
-                    reply.setParam("msg", "fl");
-                    msg.setParam("msg", "fl");
+                    reply.setContent("fl");
+                    msg.setContent("fl");
                 } else {
-                    msg.setParam("msg", "" + sid);
-                    reply.setParam("msg", "" + sid);
+                    msg.setContent("" + sid);
+                    reply.setContent("" + sid);
                 }
-                reply.setParam("s_uid", "Sys" + msg.get("r_uid"));
-                reply.setParam("r_uid", msg.get("s_uid"));
-                reply.setParam("sid", 0 + "");
+                reply.setSender("Sys" + msg.getReceiver());
+                reply.setReceiver(msg.getSender());
+                reply.setSession_id(0L);
                 ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(reply);
                 reply = null;
             } else {
                 //拒绝添加好友
-                msg.setParam("msg", "fl");
+                msg.setContent("fl");
                 reply.setMsg_id(msg.getMsg_id());
                 reply.setType(PBCONSTANT.MESSAGE_REPLY_FLAG);
             }

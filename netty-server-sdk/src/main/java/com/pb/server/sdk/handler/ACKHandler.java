@@ -29,7 +29,7 @@ public class ACKHandler implements PBRequestHandler{
     public Message process(PBSession session, Message msg) {
         logger.info("ACK:" + msg.toString());
         //向等待ACK的消息队列 加入 该ACK包，由MessageACKDaemon处理
-        MessageHolder.rec_messages.add(msg.get("msg_key"));
+        MessageHolder.rec_messages.add(msg.getContent());
         return null;
     }
 }

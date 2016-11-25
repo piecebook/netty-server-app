@@ -33,7 +33,7 @@ public class MessageMysqlDaemon {
         while (redisUtil.list_size("message_mysql_list") > 0) {
             Message message = (Message) redisUtil.list_left_pop("message_mysql_list");
             list.add(message);
-            if (message.getTime() > current_time) break;
+            if (message.getTime_long() > current_time) break;
         }
         //logger.info("mult insert: " + list.toString());
         if (list.size() > 0) messageService.addMessageList(list);

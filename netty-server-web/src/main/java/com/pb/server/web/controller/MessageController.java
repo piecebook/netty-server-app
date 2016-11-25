@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pb.server.dao.model.MessageModel;
+import pb.server.dao.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class MessageController {
         Response response = idCheck.idCheck(uid, user_id, "/msg/get_offline_msg");
 
         if (response.getError_code() == Response.SUCCESS) {
-            List<MessageModel> messages = messageService.getOfflineMsg(uid);
+            List<Message> messages = messageService.getOfflineMsg(uid);
             response.setData(messages);
         }
 

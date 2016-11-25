@@ -5,9 +5,7 @@ import com.pb.server.service.message.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pb.server.dao.model.Message;
-import pb.server.dao.model.MessageModel;
 import pb.server.dao.service.MessageDao;
-import pb.server.dao.util.MessageUtil;
 
 import java.util.List;
 
@@ -22,27 +20,25 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void addMessage(Message message) {
         logger.info("insert message: " + message.toString());
-        messageDao.addMessage(MessageUtil.toMessageModel(message));
+        messageDao.addMessage(message);
     }
 
     @Override
     public void addMessageList(List<Message> list) {
         logger.info("mult insert: " + list.toString());
-        List<MessageModel> models = MessageUtil.toMultMessageModel(list);
-        messageDao.addMessageList(models);
+        messageDao.addMessageList(list);
     }
 
     @Override
     public void addOfflineMessage(Message message) {
         logger.info("insert offline message: " + message.toString());
-        messageDao.addOfflineMessage(MessageUtil.toMessageModel(message));
+        messageDao.addOfflineMessage(message);
     }
 
     @Override
     public List<Message> getMessageBySessionId(long session_id, String time_begin, String time_end) {
-        List<MessageModel> modellist = messageDao.getMessageBySessionId(session_id, time_begin, time_end);
-        List<Message> messagelist = MessageUtil.toMultMessage(modellist);
-        return messagelist;
+        List<Message> list = messageDao.getMessageBySessionId(session_id, time_begin, time_end);
+        return list;
     }
 
     @Override
@@ -52,9 +48,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageModel> getOfflineMsg(String uid) {
-        List<MessageModel> models = messageDao.getOfflineMsg(uid);
-        return models;
+    public List<Message> getOfflineMsg(String uid) {
+        List<Message> messages = messageDao.getOfflineMsg(uid);
+        return messages;
     }
 
     @Override

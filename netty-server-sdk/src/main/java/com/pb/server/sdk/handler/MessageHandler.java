@@ -29,17 +29,17 @@ public class MessageHandler implements PBRequestHandler {
     public Message process(PBSession session, Message msg) {
         SessionManage sessionManager = (SessionManage) ContexHolder
                 .getBean("sessionManager");
-        PBSession receiver_session = sessionManager.get(msg.get("r_uid"));//得到接收用户连接的session
+        PBSession receiver_session = sessionManager.get(msg.getReceiver());//得到接收用户连接的session
         Message reply = new Message();//ACK包
         reply.setMsg_id(msg.getMsg_id());
         reply.setType(PBCONSTANT.MESSAGE_REPLY_FLAG);
-        reply.setParam("r_uid", msg.get("s_uid"));
+        reply.setReceiver(msg.getSender());
 
         String result = ((PBMessagePusher) ContexHolder.getBean("messagePusher")).push(msg);//用户在线：result=sc； 用户不在线：result=fl
 
-        reply.setParam("st", result);
-        reply.setParam("id", msg.getMsg_id() + "");
-        reply.setParam("s_uid", PBCONSTANT.SYSTEM);
+        //reply.setParam("st", result);
+        reply.setContent(msg.getMsg_id() + "");
+        reply.setSender(PBCONSTANT.SYSTEM);
         return reply;
     }
 }

@@ -58,7 +58,7 @@ public class PBIoHandler extends SimpleChannelInboundHandler<Message> {
                 //登录请求
                 case PBCONSTANT.LOGIN_FLAG:
                     reply = handlers.get(PBCONSTANT.LOGIN).process(pbSession, msg);
-                    if (reply.get("st").equals(PBCONSTANT.SUCCESS)) uid = reply.get("r_uid");
+                    if (reply.getContent().equals(PBCONSTANT.SUCCESS)) uid = reply.getReceiver();
                     break;
                 //消息转发请求
                 case PBCONSTANT.MESSAGE_FLAG:
@@ -81,7 +81,7 @@ public class PBIoHandler extends SimpleChannelInboundHandler<Message> {
                     reply = handlers.get(PBCONSTANT.ADDFRIENDS).process(pbSession, msg);
                     break;
                 case PBCONSTANT.DEL_FRIEND_FLAG:
-                    reply = handlers.get(PBCONSTANT.DELFRIENDS).process(pbSession,msg);
+                    reply = handlers.get(PBCONSTANT.DELFRIENDS).process(pbSession, msg);
                     break;
                 default:
             }

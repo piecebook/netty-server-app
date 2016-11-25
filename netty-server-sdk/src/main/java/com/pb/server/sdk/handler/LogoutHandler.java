@@ -12,9 +12,8 @@ import pb.server.dao.model.Message;
 public class LogoutHandler implements PBRequestHandler {
 
     /**
-     *
      * @param session 用户连接session
-     * @param msg 注销消息包
+     * @param msg     注销消息包
      * @return 注销回复
      */
     @Override
@@ -22,11 +21,11 @@ public class LogoutHandler implements PBRequestHandler {
         SessionManage sessionManager = (SessionManage) ContexHolder.getBean("sessionManager");
         session.close();//关闭连接
         sessionManager.remove(session.getUid());//根据uid删除用户连接的session
-		Message reply = new Message();
+        Message reply = new Message();
         reply.setType(PBCONSTANT.LOGOUT_REPLY_FLAG);
-        reply.setParam("r_uid",session.getUid());
-        reply.setParam("st",PBCONSTANT.SUCCESS);
-        reply.setParam("s_uid",PBCONSTANT.SYSTEM);
+        reply.setSender(session.getUid());
+        reply.setContent(PBCONSTANT.SUCCESS);
+        reply.setSender(PBCONSTANT.SYSTEM);
         return reply;
     }
 
